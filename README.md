@@ -1,10 +1,10 @@
 # MateSet
 
 ## Table of contents-
-* [General_Info]
-* [Technologies]
-* [SetUp]
-* [Status]
+* [General_Info](#general_info)
+* [Technologies](#technologies)
+* [SetUp](#setup)
+* [Status](#status)
 
 ## General_Info
 MateSet is a social media platform where users can follow eachother, upload posts and chat.

@@ -7,4 +7,4 @@ views = Blueprint("views", __name__)
 @views.route("/")
 @views.route("/home")
 def home():
-    return redirect(url_for("login.html"))
+    return redirect(url_for("auth.login"))

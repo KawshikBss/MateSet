@@ -12,7 +12,7 @@
     <img src="https://i.ibb.co/XWdPc2X/wave-01.png" alt="" class="wave">
     <div class="container">
         <div class="img">
-            <img src="https://i.ibb.co/JvXP8rW/phone.png" alt="">
+            <img src="{{ url_for('static', filename='images/mateSetLogo.png') }}" alt="">
         </div>
         <div class="login-container">
             <form class="form-login" action="index.html">
@@ -24,7 +24,7 @@
                     </div>
                     <div>
                         <h5>Username</h5>
-                        <input class="input" type="text">
+                        <input id="username" class="input" type="text">
                     </div>
                 </div>
                 <div class="input-div pass">
@@ -33,11 +33,11 @@
                     </div>
                     <div class="div">
                         <h5>Password</h5>
-                        <input class="input" type="password">
+                        <input id="password" class="input" type="password">
                     </div>
                 </div>
                 <input type="submit" class="btn" value="Login">
-                <a href="#">Forgot Password?</a>
+                <a href="#">Dont have an account? Sign Up</a>
             </form>
         </div>
     </div>

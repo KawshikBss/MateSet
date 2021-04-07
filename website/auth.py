@@ -1,4 +1,7 @@
 from flask import Blueprint, render_template, request
+from . import db
+from .models import User
+from werkzeug.security import generate_password_hash, check_password_hash
 
 # defining blueprint
 auth = Blueprint("auth", __name__)
@@ -36,6 +39,9 @@ def signup():
             print("No match")
         else:
             name = fname + " " + lname
+            newUser = User(name=name, userName=username, email=email, password=generate_password_hash(password, method='sha256'))
+            db.session.add(newUser)
+            db.session.commit()
             print("Everything ok")
 
     return render_template("signup.html")

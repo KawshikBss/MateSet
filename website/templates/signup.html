@@ -6,9 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://kit.fontawesome.com/c0078485ae.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/login.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/alerts.css') }}">
     <title>MateSet - Sign up</title>
 </head>
 <body>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
     <img src="https://i.ibb.co/XWdPc2X/wave-01.png" alt="" class="wave">
     <div class="container">
         <div class="img">
@@ -71,8 +81,8 @@
                         <input name="confirm" class="input" type="password">
                     </div>
                 </div>
-                <input type="submit" class="btn" value="Login">
-                <a href="#">Dont have an account? Sign Up</a>
+                <input type="submit" class="btn" value="Sign Up">
+                <a href="/login/">Already have an account? Log in</a>
             </form>
         </div>
     </div>

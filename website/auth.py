@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, flash
 from . import db
 from .models import User
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -26,22 +26,22 @@ def signup():
         confirm = request.form['confirm']
 
         if len(fname) <= 2:
-            print("Name short")
+            flash("First name is too short")
         elif len(lname) <= 2:
-            print("Name short")
+            flash("Last name is too short")
         elif len(username) <= 2:
-            print("Username short")
+            flash("Username is too short")
         elif '@' not in email and '.com' not in email:
-            print("No such email")
+            flash("Incorrect email format")
         elif len(password) < 8:
-            print("Password short")
+            flash("Password is too short")
         elif not password == confirm:
-            print("No match")
+            flash("Password does not match")
         else:
             name = fname + " " + lname
             newUser = User(name=name, userName=username, email=email, password=generate_password_hash(password, method='sha256'))
             db.session.add(newUser)
             db.session.commit()
-            print("Everything ok")
+            flash("Sign Up successfull")
 
     return render_template("signup.html")

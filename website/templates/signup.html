@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://kit.fontawesome.com/c0078485ae.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/login.css') }}">
-    <title>MateSet - Log in or Sign up</title>
+    <title>MateSet - Sign up</title>
 </head>
 <body>
     <img src="https://i.ibb.co/XWdPc2X/wave-01.png" alt="" class="wave">
@@ -16,8 +16,25 @@
         </div>
         <div class="login-container">
             <form method="POST" class="form-login">
-                <img class="avatar" src="https://i.ibb.co/H4f3Hkv/profile.png" alt="">
-                <h2>Welcome</h2>
+                <h2>Sign Up</h2>
+                <div class="input-div one">
+                    <div class="i">
+                        <i class="fas fa-user"> </i>
+                    </div>
+                    <div>
+                        <h5>First Name</h5>
+                        <input name="fname" class="input" type="text">
+                    </div>
+                </div>
+                <div class="input-div one">
+                    <div class="i">
+                        <i class="fas fa-user"> </i>
+                    </div>
+                    <div>
+                        <h5>Last Name</h5>
+                        <input name="lname" class="input" type="text">
+                    </div>
+                </div>
                 <div class="input-div one">
                     <div class="i">
                         <i class="fas fa-user"> </i>
@@ -25,6 +42,15 @@
                     <div>
                         <h5>Username</h5>
                         <input name="username" class="input" type="text">
+                    </div>
+                </div>
+                <div class="input-div one">
+                    <div class="i">
+                        <i class="fas fa-user"> </i>
+                    </div>
+                    <div>
+                        <h5>Email</h5>
+                        <input name="email" class="input" type="text">
                     </div>
                 </div>
                 <div class="input-div pass">
@@ -36,8 +62,17 @@
                         <input name="password" class="input" type="password">
                     </div>
                 </div>
+                <div class="input-div pass">
+                    <div class="i">
+                        <i class="fas fa-lock"> </i>
+                    </div>
+                    <div class="div">
+                        <h5>Confirm Password</h5>
+                        <input name="confirm" class="input" type="password">
+                    </div>
+                </div>
                 <input type="submit" class="btn" value="Login">
-                <a href="/signup/">Dont have an account? Sign Up</a>
+                <a href="#">Dont have an account? Sign Up</a>
             </form>
         </div>
     </div>

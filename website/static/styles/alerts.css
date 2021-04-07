@@ -1,0 +1,11 @@
+.alert {
+  box-sizing: border-box;
+  background-color: #5245ca;
+  width: 100%;
+  position: relative; 
+  top: 0;
+  left: 0;
+  z-index: 300;
+  padding: 20px 40px;
+  color: #ffffff;
+}

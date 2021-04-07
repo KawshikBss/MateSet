@@ -15,7 +15,7 @@
             <img src="{{ url_for('static', filename='images/mateSetLogo.png') }}" alt="">
         </div>
         <div class="login-container">
-            <form class="form-login" action="index.html">
+            <form method="POST" class="form-login">
                 <img class="avatar" src="https://i.ibb.co/H4f3Hkv/profile.png" alt="">
                 <h2>Welcome</h2>
                 <div class="input-div one">
@@ -24,7 +24,7 @@
                     </div>
                     <div>
                         <h5>Username</h5>
-                        <input id="username" class="input" type="text">
+                        <input name="username" class="input" type="text">
                     </div>
                 </div>
                 <div class="input-div pass">
@@ -33,7 +33,7 @@
                     </div>
                     <div class="div">
                         <h5>Password</h5>
-                        <input id="password" class="input" type="password">
+                        <input name="password" class="input" type="password">
                     </div>
                 </div>
                 <input type="submit" class="btn" value="Login">

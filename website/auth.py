@@ -12,7 +12,9 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        print("Username = ", username, " Password = ", password)
+        user = User.query.filter_by(userName = username).first()
+        if user:
+            flash("Logged in successfully")
     return render_template("login.html")
 
 @auth.route('/signup/', methods=['POST', 'GET'])

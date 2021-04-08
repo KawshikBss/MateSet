@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, flash
+from flask import Blueprint, render_template, redirect, url_for, request, flash
 from . import db
 from .models import User
 from flask_login import login_user, logout_user, current_user
@@ -23,6 +23,12 @@ def login():
                 login_user(user=user, remember=True)
                 flash("Logged in successfully")
     return render_template("login.html")
+
+@auth.route('/logout/')
+def logout():
+    logout_user()
+    flash("Logged out successfully")
+    return redirect(url_for('auth.login'))
 
 @auth.route('/signup/', methods=['POST', 'GET'])
 def signup():

@@ -1,5 +1,6 @@
 from flask import Flask, Blueprint
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager
 from os import path
 
 # creating database object
@@ -32,6 +33,14 @@ def create_app():
 
     # creating db files
     create_db(app)
+
+    loginManager = LoginManager()
+    loginManager.login_view = 'auth.login'
+    loginManager.init_app(app)
+
+    @loginManager.user_loader
+    def load_user(id):
+        return User.query.get(int(id))
 
     # returning app
     return app

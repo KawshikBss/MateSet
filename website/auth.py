@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, flash
 from . import db
 from .models import User
+from flask_login import login_user, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 
 # defining blueprint
@@ -13,8 +14,14 @@ def login():
         username = request.form['username']
         password = request.form['password']
         user = User.query.filter_by(userName = username).first()
-        if user:
-            flash("Logged in successfully")
+        if not user:
+            flash("Incorrect username")
+        else:
+            if not check_password_hash(user.password, password):
+                flash("Incorrect password")
+            else:
+                login_user(user=user, remember=True)
+                flash("Logged in successfully")
     return render_template("login.html")
 
 @auth.route('/signup/', methods=['POST', 'GET'])

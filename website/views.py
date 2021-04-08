@@ -1,12 +1,20 @@
-from flask import Blueprint, render_template, redirect, url_for
+from flask import Blueprint, render_template, redirect, url_for, request
 from flask_login import login_required, current_user
+from .models import *
+from . import db
+#from file import send_image
 
 # defining blueprint
 views = Blueprint("views", __name__)
 
 # defining route to homepage
-@views.route('/')
-@views.route('/home/')
+@views.route('/', methods=['GET', 'POST'])
+@views.route('/home/', methods=['GET', 'POST'])
 @login_required
 def home():
-    return render_template('home.html', user=current_user)
+    if request.method == 'POST':
+        desc = request.form['post']
+        db.session.add(Post(desc=desc, userName=current_user.userName))
+        db.session.commit()
+    posts = Post.query.all()
+    return render_template('home.html', user=current_user, posts=posts)

@@ -22,7 +22,8 @@ def login():
             else:
                 login_user(user=user, remember=True)
                 flash("Logged in successfully")
-    return render_template("login.html")
+                return redirect(url_for('views.home'))
+    return render_template('login.html')
 
 @auth.route('/logout/')
 def logout():
@@ -67,4 +68,4 @@ def signup():
             else:
                 flash("Username is taken")
 
-    return render_template("signup.html")
+    return render_template('signup.html')

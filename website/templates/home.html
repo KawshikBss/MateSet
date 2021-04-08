@@ -43,7 +43,7 @@
                                 <img class="rounded-circle" width="50" src="assets/images/7.jpg" alt="">
                             </div>
                             <div class="h5 mt-4">{{ user.userName }}</div>
-                            <div class="h6 text-muted mb-5">Photographer</div>
+                            <div class="h6 text-muted mb-5">{{ user.name }}</div>
                         </div>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item mscol">
@@ -111,6 +111,7 @@
                                     <a href="#" class="card-link"><i class="fa fa-share-alt mr-2" aria-hidden="true"></i> 01</a>
                                 </div>
                             </div>
+                            <br>
                         {% endfor %}
                     {% endif %}
                 </div>

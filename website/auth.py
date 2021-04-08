@@ -41,9 +41,17 @@ def signup():
             flash("Password does not match")
         else:
             name = fname + " " + lname
-            newUser = User(name=name, userName=username, email=email, password=generate_password_hash(password, method='sha256'))
-            db.session.add(newUser)
-            db.session.commit()
-            flash("Sign Up successfull")
+            userNameCheck = User.query.filter_by(userName=username).first()
+            if not userNameCheck:
+                emailCheck = User.query.filter_by(email=email).first()
+                if not emailCheck:
+                    newUser = User(name=name, userName=username, email=email, password=generate_password_hash(password, method='sha256'))
+                    db.session.add(newUser)
+                    db.session.commit()
+                    flash("Sign Up successfull")
+                else:
+                    flash("Email already exists")
+            else:
+                flash("Username is taken")
 
     return render_template("signup.html")

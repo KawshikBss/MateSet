@@ -1,7 +1,3 @@
-/*body {
-    color: #fff!important;
-}*/
-
 .h7 {
     font-size: 0.8rem;
 }
@@ -45,6 +41,11 @@
 .mscol {
     color: #fff!important;
     background-color: #5245ca;
+}
+
+.mscol a {
+    text-decoration: none;
+    color: #fff;
 }
 
 /*.card-body {

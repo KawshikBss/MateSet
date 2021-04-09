@@ -3,8 +3,10 @@ from flask_login import current_user
 from .models import User, Post, Like
 from . import db
 
+# defined as blueprint
 customReqs = Blueprint('customReqs', __name__)
 
+# creating route to recieve custom request from json
 @customReqs.route('/like-post', methods=['POST'])
 def like_post():
     post = json.loads(request.data)['postId']

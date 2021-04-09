@@ -18,3 +18,8 @@ def home():
         db.session.commit()
     posts = Post.query.all()
     return render_template('home.html', user=current_user, posts=posts)
+
+@views.route('/<username>/')
+@login_required
+def profile(username):
+    return render_template('profile.html', user=current_user)

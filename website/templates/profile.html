@@ -30,22 +30,8 @@
             <div class="row">
                 <div class="col-md-3" id="profile">
                     <div class="card pl-3 mscol">
-                        <div class="card-body">
-                            <div class="input-group mb-5">
-                                <div class="input-group-append">
-                                    <button class="btn btn-outline-primary" type="button" id="button-addon2">
-                                        <i class="fa fa-search mscol"></i>
-                                    </button>
-                                </div>
-                                <input type="text" placeholder="Search" id="search" class="form-control" aria-label="Recipient's username" aria-describedby="button-addon2">
-                            </div>
-                            <div class="mr-2">
-                                <img class="rounded-circle" width="100" src="{{ url_for('static', filename='images/7.jfif') }}" alt="">
-                            </div>
-                            <div class="h5 mt-4"><a href="{{ url_for('views.profile', username=user.userName) }}">{{ user.userName }}</a></div>
-                            <div class="h6 text-muted mb-5 mscol2">{{ user.name }}</div>
-                        </div>
                         <ul class="list-group list-group-flush">
+                            <li style="opacity: 0;"></li>
                             <li class="list-group-item mscol">
                                 <div class="h6 text-muted mscol"><i class="fa fa-history mscol mr-4"></i><a href="/">Timeline</a></div>
                             </li>
@@ -66,24 +52,16 @@
                 </div>
                 <div class="col-md-6 gedf-main">
                     <div class="card gedf-card">
-                        <div class="card-body" id="postcard">
-                            <form method="post">
-                                <div class="tab-content" id="myTabContent">
-                                    <div class="tab-pane fade show active" id="posts" role="tabpanel" aria-labelledby="posts-tab">
-                                        <div class="form-group">
-                                            <label class="sr-only" for="message">post</label>
-                                            <textarea class="form-control pt-4" name="post" id="message" rows="5" placeholder="Write Something..."></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="btn-group">
-                                    <button type="submit" class="btn btn-primary mscol">Post</button>
-                                </div>
-                            </form>
+                        <div class="card-body">
+                            <div class="mr-2">
+                                <img class="rounded-circle" width="100" src="{{ url_for('static', filename='images/7.jfif') }}" alt="">
+                            </div>
+                            <div class="h5 mt-4">{{ user.userName }}</div>
+                            <div class="h6 text-muted mb-5">{{ user.name }}</div>
                         </div>
                     </div>
-                    {% if posts %}
-                        {% for post in posts %}
+                    {% if user.posts %}
+                        {% for post in user.posts %}
                             <div class="card gedf-card">
                                 <div class="card-header">
                                     <div class="d-flex justify-content-between align-items-center">
@@ -167,7 +145,7 @@
                 method: "POST",
                 body: JSON.stringify({ postId: postId }),
             }).then((_res) => {
-                window.location.href = "{{ url_for('views.home') }}";
+                window.location.href = "/{{ user.userName }}/";
             });
         }
     </script>

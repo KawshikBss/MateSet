@@ -17,9 +17,11 @@ def home():
         db.session.add(Post(desc=desc, userName=current_user.userName))
         db.session.commit()
     posts = Post.query.all()
-    return render_template('home.html', user=current_user, posts=posts)
+    suggestions = [sug for sug in User.query.all() if not sug.id == current_user.id]
+    return render_template('home.html', user=current_user, posts=posts, sugs=suggestions)
 
 @views.route('/<username>/')
 @login_required
 def profile(username):
-    return render_template('profile.html', user=current_user)
+    suggestions = [sug for sug in User.query.all() if not sug.id == current_user.id]
+    return render_template('profile.html', user=current_user, sugs=suggestions)

@@ -43,11 +43,21 @@
     background-color: #5245ca;
 }
 
+button.mscol {
+    color: #fff!important;
+    background-color: #5245ca!important;
+}
+
 .mscol2 {
     border-radius: 10px;
     padding: 2px;
-    color: #5245ca;
+    color: #5245ca!important;
     background-color: #fff!important;
+}
+
+i.mscol2 {
+    color: #5245ca!important;
+    background-color: none;
 }
 
 .card.pl-3.mscol {

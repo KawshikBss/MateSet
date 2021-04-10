@@ -9,8 +9,14 @@ class User(db.Model, UserMixin):
     userName = db.Column(db.String(100), unique=True)
     email = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(100))
+    following = db.relationship('Follow', primaryjoin='User.userName == Follow.user')
     posts = db.relationship('Post')
     liked = db.relationship('Like')
+
+class Follow(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user = db.Column(db.String(100), ForeignKey('user.userName'))
+    followedUser = db.Column(db.String(100), ForeignKey('user.userName'))
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)

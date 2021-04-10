@@ -24,8 +24,8 @@ def like_post():
 
 @customReqs.route('/follow-user', methods=['POST'])
 def follow_user():
-    followedUser = json.loads(request.data)['userName']
-    print(followedUser)
+    targetId = json.loads(request.data)['targetId']
+    followedUser = User.query.filter_by(id=targetId).first().userName
     db.session.add(Follow(user=current_user.userName, followedUser=followedUser))
     db.session.commit()
 

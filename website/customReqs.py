@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify, json
 from flask_login import current_user
-from .models import User, Post, Like
+from .models import User, Follow, Post, Like
 from . import db
 
 # defined as blueprint
@@ -18,6 +18,15 @@ def like_post():
     else:
         tmpPost.likes += 1
         db.session.add(Like(post=post, user=current_user.userName))
+    db.session.commit()
+
+    return jsonify({})
+
+@customReqs.route('/follow-user', methods=['POST'])
+def follow_user():
+    followedUser = json.loads(request.data)['userName']
+    print(followedUser)
+    db.session.add(Follow(user=current_user.userName, followedUser=followedUser))
     db.session.commit()
 
     return jsonify({})

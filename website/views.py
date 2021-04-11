@@ -33,5 +33,7 @@ def profile(username):
 @views.route('/following/')
 @login_required
 def following():
-    usersFollowing = [usr.followedUser for usr in current_user.following]
+    userFollowing = [usr.followedUser for usr in current_user.following]
+    users = User.query.all()
+    usersFollowing = [usr for usr in users if usr.userName in userFollowing]
     return render_template('following.html', user=current_user, usersFollowing=usersFollowing)

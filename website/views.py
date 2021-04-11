@@ -29,3 +29,9 @@ def home():
 def profile(username):
     suggestions = [sug for sug in User.query.all() if not sug.id == current_user.id]
     return render_template('profile.html', user=current_user, sugs=suggestions)
+
+@views.route('/following/')
+@login_required
+def following():
+    usersFollowing = [usr.followedUser for usr in current_user.following]
+    return render_template('following.html', user=current_user, usersFollowing=usersFollowing)

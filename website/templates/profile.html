@@ -101,7 +101,14 @@
                                         </div>
                                         <div class="ml-1">
                                             <div class="h6 m-0 mt-1" style="font-size: 14px;">{{ usr.userName }}</div>
-                                            <div class="h7 text-muted" style="font-size: 12px;">{{ user.name }}<span><i class="fa fa-plus-circle fa-2x mscol2" style="margin-left: 72px;"></i></span></div>
+                                            <div class="h7 text-muted" style="font-size: 12px;">
+                                                <span>
+                                                    {{ usr.name }}
+                                                    <a href="#" class="card-link" onclick="followUser({{ usr.id }});">
+                                                        <i class="fa fa-plus-circle fa-2x mscol2" style="margin-left: 65px;"></i>
+                                                    </a>
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                 {% endfor %}
@@ -129,6 +136,15 @@
                 body: JSON.stringify({ postId: postId }),
             }).then((_res) => {
                 window.location.href = "/{{ user.userName }}/";
+            });
+        }
+
+        function followUser(targetId) {
+            fetch("/follow-user", {
+                method: "POST",
+                body: JSON.stringify({ targetId: targetId }),
+            }).then((_res) => {
+                window.location.href = "{{ url_for('views.home') }}";
             });
         }
     </script>

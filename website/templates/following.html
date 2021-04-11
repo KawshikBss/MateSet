@@ -50,7 +50,7 @@
                                 <div class="h6 text-muted mscol"><i class="fa fa-history mscol mr-4"></i><a href="/">Timeline</a></div>
                             </li>
                             <li class="list-group-item mscol">
-                                <div class="h6 text-muted mscol"><i class="fa fa-user mscol mr-4"></i><a href="#">Activity</a></div>
+                                <div class="h6 text-muted mscol"><i class="fa fa-user mscol mr-4"></i><a href="{{ url_for('views.following') }}">Following</a></div>
                             </li>
                             <li class="list-group-item mscol">
                                 <div class="h6 text-muted mscol"><i class="fa fa-envelope mscol mr-4"></i><a href="#">Message</a></div>
@@ -72,7 +72,7 @@
                                     <img class="rounded-circle" width="45" src="{{ url_for('static', filename='images/7.jfif') }}" alt="">
                                 </div>
                                 <div class="ml-1">
-                                    <div class="h6 m-0 mt-1" style="font-size: 14px;">{{ usr }}</div>
+                                    <div class="h6 m-0 mt-1" style="font-size: 14px;"><a href="{{ url_for('views.profile', username=usr.userName, user=usr) }}">{{ usr.userName }}</a></div>
                                 </div>
                             </div>
                             <br>

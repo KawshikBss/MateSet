@@ -73,7 +73,15 @@
                                     <img class="rounded-circle" width="45" src="{{ url_for('static', filename='images/7.jfif') }}" alt="">
                                 </div>
                                 <div class="ml-1">
-                                    <div class="h6 m-0 mt-1" style="font-size: 14px;"><a class="mscol" href="{{ url_for('views.profile', username=usr.userName, user=usr) }}">{{ usr.userName }}</a></div>
+                                    <div class="h6 m-0 mt-1" style="font-size: 14px;"><a href="{{ url_for('views.profile', username=usr.userName) }}">{{ usr.userName }}</a></div>
+                                    <div class="h7 text-muted" style="font-size: 12px;">
+                                        <span>
+                                            {{ usr.name }}
+                                            <a href="#" class="card-link" onclick="unFollowUser({{ usr.id }});">
+                                                <i class="fa fa-minus-circle fa-2x mscol2" style="margin-left: 65px;"></i>
+                                            </a>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                             <br>
@@ -120,6 +128,15 @@
     integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
     crossorigin="anonymous"></script>
     <script>
+        function unFollowUser(targetId) {
+            fetch("/unfollow-user", {
+                method: "POST",
+                body: JSON.stringify({ targetId: targetId }),
+            }).then((_res) => {
+                window.location.href = "{{ url_for('views.following') }}";
+            });
+        }
+
         function followUser(targetId) {
             fetch("/follow-user", {
                 method: "POST",

@@ -25,7 +25,8 @@ def home():
 @login_required
 def profile(username):
     suggestions = get_users_suggestions(current_user)
-    return render_template('profile.html', user=current_user, sugs=suggestions)
+    user = User.query.filter_by(userName=username).first()
+    return render_template('profile.html', user=user, sugs=suggestions)
 
 @views.route('/following/')
 @login_required

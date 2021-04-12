@@ -30,3 +30,13 @@ def follow_user():
     db.session.commit()
 
     return jsonify({})
+
+@customReqs.route('/unfollow-user', methods=['POST'])
+def unfollow_user():
+    targetId = json.loads(request.data)['targetId']
+    followedUser = User.query.filter_by(id=targetId).first()
+    toDelete = Follow.query.filter_by(user=current_user.userName, followedUser=followedUser.userName).first()
+    db.session.delete(toDelete)
+    db.session.commit()
+
+    return jsonify({})

@@ -1,0 +1,12 @@
+a.mscol {
+    text-decoration: none;
+    border-radius: 10px;
+    padding: 5px;
+    background-color: #5245ca;
+    color: #fff;
+}
+
+a:hover.mscol {
+    background-color: #fff;
+    color: #5245ca!important;
+}

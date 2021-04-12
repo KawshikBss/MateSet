@@ -14,7 +14,7 @@
     crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/home.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/alerts.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/following.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/userLink.css') }}">
 </head>
 <body>
     {% with messages = get_flashed_messages() %}
@@ -73,7 +73,7 @@
                                     <img class="rounded-circle" width="45" src="{{ url_for('static', filename='images/7.jfif') }}" alt="">
                                 </div>
                                 <div class="ml-1">
-                                    <div class="h6 m-0 mt-1" style="font-size: 14px;"><a href="{{ url_for('views.profile', username=usr.userName) }}">{{ usr.userName }}</a></div>
+                                    <div class="h6 m-0 mt-1" style="font-size: 14px;"><a class="mscol" href="{{ url_for('views.profile', username=usr.userName) }}">{{ usr.userName }}</a></div>
                                     <div class="h7 text-muted" style="font-size: 12px;">
                                         <span>
                                             {{ usr.name }}
@@ -98,7 +98,9 @@
                                             <img class="rounded-circle" width="45" src="{{ url_for('static', filename='images/7.jfif') }}" alt="">
                                         </div>
                                         <div class="ml-1">
-                                            <div class="h6 m-0 mt-1" style="font-size: 14px;">{{ usr.userName }}</div>
+                                            <div class="h6 m-0 mt-1" style="font-size: 14px;">
+                                                <a class="mscol" href="{{ url_for('views.profile', username=usr.userName) }}">{{ usr.userName }}</a>
+                                            </div>
                                             <div class="h7 text-muted" style="font-size: 12px;">
                                                 <span>
                                                     {{ usr.name }}

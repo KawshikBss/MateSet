@@ -28,6 +28,11 @@ def profile(username):
     user = User.query.filter_by(userName=username).first()
     return render_template('profile.html', user=user, sugs=suggestions)
 
+@views.route('/settings/')
+@login_required
+def settings():
+    return render_template('settings.html', user=current_user)
+
 @views.route('/following/')
 @login_required
 def following():

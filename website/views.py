@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from flask_login import login_required, current_user
-from .models import User, Post
+from .models import User, Post, Message
 from . import db
 from .getFromModels import *
 #from file import send_image
@@ -43,8 +43,9 @@ def message():
 @views.route('/messages/<toUserName>', methods=['POST', 'GET'])
 @login_required
 def messages(toUserName):
+    toUser = User.query.filter_by(userName=toUserName).first()
     if request.method == 'POST':
         msg = request.form['msg']
-        print(msg)
-    toUser = User.query.filter_by(userName=toUserName).first()
+        db.session.add(Message(fromUserId=current_user.id, toUserId=toUser.id, msg=msg))
+        db.session.commit()
     return render_template('messages.html', user=current_user, toUser=toUser)

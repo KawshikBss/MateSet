@@ -38,7 +38,7 @@ def following():
 @views.route('/message/', methods=['POST', 'GET'])
 @login_required
 def message():
-    return render_template('message.html', user=current_user, usersFollowing=get_users_following(current_user))
+    return render_template('message.html', user=current_user, usersFollowing=get_users_following(current_user), sugs=get_users_suggestions(current_user))
 
 @views.route('/messages/<toUserName>', methods=['POST', 'GET'])
 @login_required

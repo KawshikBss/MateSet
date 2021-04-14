@@ -2,6 +2,7 @@ from . import db
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
 from flask_login import UserMixin
+from datetime import datetime
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -12,6 +13,7 @@ class User(db.Model, UserMixin):
     following = db.relationship('Follow', primaryjoin='User.userName == Follow.user')
     posts = db.relationship('Post')
     liked = db.relationship('Like')
+    messages = db.relationship('Message', primaryjoin='User.id == Message.fromUserId')
 
 class Follow(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -29,3 +31,10 @@ class Like(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     post = db.Column(db.Integer, ForeignKey('post.id'))
     user = db.Column(db.String(100), ForeignKey('user.userName'))
+
+class Message(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    fromUserId = db.Column(db.Integer, ForeignKey('user.id'))
+    toUserId = db.Column(db.Integer, ForeignKey('user.id'))
+    msg = db.Column(db.String(100))
+    date = db.Column(db.String(7), default=datetime.today().strftime("%I:%M%p"))

@@ -34,3 +34,17 @@ def following():
     usersFollowing = get_users_following(current_user)
     suggestions = get_users_suggestions(current_user)
     return render_template('following.html', user=current_user, usersFollowing=usersFollowing, sugs=suggestions)
+
+@views.route('/message/', methods=['POST', 'GET'])
+@login_required
+def message():
+    return render_template('message.html', user=current_user, usersFollowing=get_users_following(current_user))
+
+@views.route('/messages/<toUserName>', methods=['POST', 'GET'])
+@login_required
+def messages(toUserName):
+    if request.method == 'POST':
+        msg = request.form['msg']
+        print(msg)
+    toUser = User.query.filter_by(userName=toUserName).first()
+    return render_template('messages.html', user=current_user, toUser=toUser)

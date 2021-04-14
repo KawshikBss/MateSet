@@ -1,4 +1,5 @@
 from .models import User, Post, Message
+from .dateFunction import is_recent
 from . import db
 
 def get_users_following(user):
@@ -16,7 +17,7 @@ def get_users_suggestions(user):
 def get_posts_for_user(user):
     usersFollowing = get_users_following_name(user)
     posts = Post.query.all()
-    return [post for post in posts if post.userName in usersFollowing or post.userName == user.userName]
+    return [post for post in posts if (post.userName in usersFollowing or post.userName == user.userName) and is_recent(post.postDate)]
 
 def get_messages_for_user(user, otherUser):
     allMsgs = Message.query.all()

@@ -66,6 +66,7 @@
                     </div>
                 </div>
                 <div class="col-md-6 gedf-main">
+                    <h6 class="card-title mt-3 mb-5">Messages<span class="ml-5">:</span></h6>
                     {% if usersFollowing %}
                         {% for usr in usersFollowing %}
                             <div class="d-flex mb-4">
@@ -87,6 +88,7 @@
                             <br>
                         {% endfor %}
                     {% endif %}
+                    <h6 class="card-title mt-3 mb-5">Message requests<span class="ml-5">:</span></h6>
                 </div>
                 <div class="col-md-3" id="suggested">
                         <div class="card-body">
@@ -135,7 +137,7 @@
                 method: "POST",
                 body: JSON.stringify({ targetId: targetId }),
             }).then((_res) => {
-                window.location.href = "{{ url_for('views.following') }}";
+                window.location.href = "{{ url_for('views.message') }}";
             });
         }
     </script>

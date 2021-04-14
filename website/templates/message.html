@@ -54,7 +54,7 @@
                                 <div class="h6 text-muted mscol"><i class="fa fa-user mscol mr-4"></i><a href="{{ url_for('views.following') }}">Following</a></div>
                             </li>
                             <li class="list-group-item mscol">
-                                <div class="h6 text-muted mscol"><i class="fa fa-envelope mscol mr-4"></i><a href="#">Message</a></div>
+                                <div class="h6 text-muted mscol"><i class="fa fa-envelope mscol mr-4"></i><a href="{{ url_for('views.message') }}">Message</a></div>
                             </li>
                             <li class="list-group-item mscol">
                                 <div class="h6 text-muted mscol"><i class="fa fa-wrench mscol mr-4"></i><a href="{{ url_for('auth.settings') }}">Settings</a></div>
@@ -77,7 +77,7 @@
                                     <div class="h7 text-muted" style="font-size: 12px;">
                                         <span>
                                             {{ usr.name }}
-                                            <a href="#" class="card-link" onclick="unFollowUser({{ usr.id }});">
+                                            <a href="/messages/{{ usr.userName }}" class="card-link">
                                                 <i class="fa fa-envelope fa-2x mscol2" style="margin-left: 65px;"></i>
                                             </a>
                                         </span>
@@ -130,15 +130,6 @@
     integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
     crossorigin="anonymous"></script>
     <script>
-        function unFollowUser(targetId) {
-            fetch("/unfollow-user", {
-                method: "POST",
-                body: JSON.stringify({ targetId: targetId }),
-            }).then((_res) => {
-                window.location.href = "{{ url_for('views.following') }}";
-            });
-        }
-
         function followUser(targetId) {
             fetch("/follow-user", {
                 method: "POST",

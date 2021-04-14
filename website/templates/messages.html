@@ -17,7 +17,7 @@
 </head>
 <body>
     <div class="menu">
-        <div class="back"><i class="fa fa-chevron-left"></i> <img src="{{ url_for('static', filename='images/7.jfif') }}" draggable="false"/></div>
+        <div class="back"><a href="{{ url_for('views.message') }}"><i class="fa fa-chevron-left"></i></a> <img src="{{ url_for('static', filename='images/7.jfif') }}" draggable="false"/></div>
         <div class="name">{{ toUser.userName }}</div>
     </div>
     {% if msgs %}

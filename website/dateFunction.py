@@ -30,7 +30,7 @@ def is_recent(date):
                 return False
         else:
             timeDiff = dateDiff[-1]
-            if int(timeDiff.split(':')[0]) > 5:
+            if int(timeDiff.split(':')[0]) > 1:
                 return False
             else:
                 return True

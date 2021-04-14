@@ -20,20 +20,29 @@
         <div class="back"><i class="fa fa-chevron-left"></i> <img src="{{ url_for('static', filename='images/7.jfif') }}" draggable="false"/></div>
         <div class="name">{{ toUser.userName }}</div>
     </div>
-    <ol class="chat">
-        <li class="other">
-            <div class="avatar"><img src="{{ url_for('static', filename='images/7.jfif') }}" draggable="false"/></div>
-            <div class="msg">
-                <p>Hola!</p>
-            </div>
-        </li>
-        <li class="self">
-            <div class="avatar"><img src="{{ url_for('static', filename='images/7.jfif') }}" draggable="false"/></div>
-            <div class="msg">
-                <p>Puff...</p>
-            </div>
-        </li>
-    </ol>
+    {% if msgs %}
+        <ol class="chat">
+        {% for msg in msgs %}
+            {% if msg.fromUserId == user.id %}
+                <li class="self">
+                    <div class="avatar"><img src="{{ url_for('static', filename='images/7.jfif') }}" draggable="false"/></div>
+                    <div class="msg">
+                        <p>{{ msg.msg }}</p>
+                        <time>{{ msg.date }}</time>
+                    </div>
+                </li>
+            {% else %}
+                <li class="other">
+                    <div class="avatar"><img src="{{ url_for('static', filename='images/7.jfif') }}" draggable="false"/></div>
+                    <div class="msg">
+                        <p>{{ msg.msg }}</p>
+                        <time>{{ msg.date }}</time>
+                    </div>
+                </li>
+            {% endif %}
+        {% endfor %}
+        </ol>
+    {% endif %}
     <form class="textarea" method="post">
         <input type="text" name="msg" placeholder="Type here!"/>
         <button class="btn btn-primary mscol" type="submit"><i class="far fa-paper-plane"></i></button>

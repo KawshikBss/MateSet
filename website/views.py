@@ -48,4 +48,5 @@ def messages(toUserName):
         msg = request.form['msg']
         db.session.add(Message(fromUserId=current_user.id, toUserId=toUser.id, msg=msg))
         db.session.commit()
-    return render_template('messages.html', user=current_user, toUser=toUser)
+    msgs = get_messages_for_user(current_user, toUser)
+    return render_template('messages.html', user=current_user, toUser=toUser, msgs=msgs)

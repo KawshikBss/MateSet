@@ -163,7 +163,7 @@ a{
 .self .msg {
     order: 1;
     border-bottom-right-radius: 0px;
-    box-shadow: 1px 2px 0px #D4D4D4;
+    box-shadow: 1px 2px 0px #574bc5;
 }
 .self .avatar {
     order: 2;
@@ -176,10 +176,10 @@ a{
     right: 0px;
     width: 0px;
     height: 0px;
-    border: 5px solid #fff;
+    border: 5px solid #5245ca;
     border-right-color: transparent;
     border-top-color: transparent;
-    box-shadow: 0px 2px 0px #D4D4D4;
+    box-shadow: 0px 2px 0px #574bc5;
 }
 
 .msg {
@@ -189,11 +189,21 @@ a{
     border-radius: 2px;
     box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.07);
 }
+
+.self .msg {
+    background-color: #5245ca;
+}
+
 .msg p {
     font-size: 0.8rem;
     margin: 0 0 0.2rem 0;
     color: #777;
 }
+
+.self .msg p {
+    color: #fff;
+}
+
 .msg img {
     position: relative;
     display: block;

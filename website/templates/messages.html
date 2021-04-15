@@ -25,7 +25,7 @@
         {% for msg in msgs %}
             {% if msg.fromUserId == user.id %}
                 <li class="self">
-                    <div class="avatar"><img src="{{ url_for('static', filename='images/7.jfif') }}" draggable="false"/></div>
+                    <div class="avatar"><img src="{{ url_for('views.get_image', file=user.profilePic) }}" draggable="false"/></div>
                     <div class="msg">
                         <p>{{ msg.msg }}</p>
                         <time>{{ msg.date }}</time>
@@ -33,7 +33,7 @@
                 </li>
             {% else %}
                 <li class="other">
-                    <div class="avatar"><img src="{{ url_for('static', filename='images/7.jfif') }}" draggable="false"/></div>
+                    <div class="avatar"><img src="{{ url_for('views.get_image', file=toUser.profilePic) }}" draggable="false"/></div>
                     <div class="msg">
                         <p>{{ msg.msg }}</p>
                         <time>{{ msg.date }}</time>

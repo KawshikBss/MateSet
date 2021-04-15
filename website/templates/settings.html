@@ -51,74 +51,78 @@
                     </div>
                 </div>
                 <div class="col-md-6 gedf-main">
-                    <div class="card gedf-card">
-                        <div class="card-body">
-                            <div class="mr-2">
-                                <img class="rounded-circle" width="100" height="100" src="{{ url_for('views.get_image', file=user.profilePic) }}" alt="">
+                    <div class="card pl-3">
+                        <div class="card gedf-card">
+                            <div class="card-body">
+                                <div class="mr-2">
+                                    <img class="rounded-circle" width="100" height="100" src="{{ url_for('views.get_image', file=user.profilePic) }}" alt="">
+                                </div>
+                                <div class="h5 mt-4">{{ user.userName }}</div>
+                                <div class="h6 text-muted mb-5">{{ user.name }}</div>
                             </div>
-                            <div class="h5 mt-4">{{ user.userName }}</div>
-                            <div class="h6 text-muted mb-5">{{ user.name }}</div>
                         </div>
+                        <br>
+                        <form method="POST" class="form-login" enctype="multipart/form-data">
+                            <h2>Welcome Profile Settings</h2>
+                            <div class="input-div one">
+                                <div class="i">
+                                    <i class="fas fa-user"> </i>
+                                </div>
+                                <div>
+                                    <h5>Change Profile Picture</h5>
+                                    <input name="profilePic" class="input" type="file" accept="image/*">
+                                </div>
+                            </div>
+                            <div class="input-div one">
+                                <div class="i">
+                                    <i class="fas fa-user"> </i>
+                                </div>
+                                <div>
+                                    <h5>Change Username</h5>
+                                    <input name="username" class="input" type="text">
+                                </div>
+                            </div>
+                            <div class="input-div one">
+                                <div class="i">
+                                    <i class="fas fa-user"> </i>
+                                </div>
+                                <div>
+                                    <h5>Change Name</h5>
+                                    <input name="name" class="input" type="text">
+                                </div>
+                            </div>
+                            <div class="input-div one">
+                                <div class="i">
+                                    <i class="fas fa-user"> </i>
+                                </div>
+                                <div>
+                                    <h5>Change Email</h5>
+                                    <input name="email" class="input" type="text">
+                                </div>
+                            </div>
+                            <div class="input-div pass">
+                                <div class="i">
+                                    <i class="fas fa-lock"> </i>
+                                </div>
+                                <div class="div">
+                                    <h5>Change Password</h5>
+                                    <input name="password" class="input" type="password">
+                                </div>
+                            </div>
+                            <div class="input-div one">
+                                <div class="i">
+                                    <i class="fas fa-lock"> </i>
+                                </div>
+                                <div>
+                                    <h5>Current Password</h5>
+                                    <input name="curpassword" class="input" type="password">
+                                </div>
+                            </div>
+                            <br>
+                            <input type="submit" class="btn btn-primary mscol" value="Save Changes">
+                            <br>
+                        </form>
                     </div>
-                    <br>
-                    <form method="POST" class="form-login" enctype="multipart/form-data">
-                        <h2>Welcome Profile Settings</h2>
-                        <div class="input-div one">
-                            <div class="i">
-                                <i class="fas fa-user"> </i>
-                            </div>
-                            <div>
-                                <h5>Change Profile Picture</h5>
-                                <input name="profilePic" class="input" type="file" accept="image/*">
-                            </div>
-                        </div>
-                        <div class="input-div one">
-                            <div class="i">
-                                <i class="fas fa-user"> </i>
-                            </div>
-                            <div>
-                                <h5>Change Username</h5>
-                                <input name="username" class="input" type="text">
-                            </div>
-                        </div>
-                        <div class="input-div one">
-                            <div class="i">
-                                <i class="fas fa-user"> </i>
-                            </div>
-                            <div>
-                                <h5>Change Name</h5>
-                                <input name="name" class="input" type="text">
-                            </div>
-                        </div>
-                        <div class="input-div one">
-                            <div class="i">
-                                <i class="fas fa-user"> </i>
-                            </div>
-                            <div>
-                                <h5>Change Email</h5>
-                                <input name="email" class="input" type="text">
-                            </div>
-                        </div>
-                        <div class="input-div pass">
-                            <div class="i">
-                                <i class="fas fa-lock"> </i>
-                            </div>
-                            <div class="div">
-                                <h5>Change Password</h5>
-                                <input name="password" class="input" type="password">
-                            </div>
-                        </div>
-                        <div class="input-div one">
-                            <div class="i">
-                                <i class="fas fa-lock"> </i>
-                            </div>
-                            <div>
-                                <h5>Current Password</h5>
-                                <input name="curpassword" class="input" type="password">
-                            </div>
-                        </div>
-                        <input type="submit" class="btn btn-primary mscol" value="Save Changes">
-                    </form>
                 </div>
                 <div class="col-md-3" id="suggested">
                         <div class="card-body">

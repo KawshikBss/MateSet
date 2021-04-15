@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, request, flash
+from flask import Blueprint, render_template, redirect, url_for, request, flash, send_from_directory
 from flask_login import login_required, current_user
 from .models import User, Post, Message
 from . import db
@@ -15,7 +15,7 @@ views = Blueprint("views", __name__)
 def home():
     if request.method == 'POST':
         desc = request.form['post']
-        db.session.add(Post(desc=desc, userName=current_user.userName))
+        db.session.add(Post(desc=desc, userName=current_user.userName, userpic=current_user.profilePic))
         db.session.commit()
     posts = get_posts_for_user(current_user)
     suggestions = get_users_suggestions(current_user)
@@ -51,3 +51,8 @@ def messages(toUserName):
         db.session.commit()
     msgs = get_messages_for_user(current_user, toUser)
     return render_template('messages.html', user=current_user, toUser=toUser, msgs=msgs)
+
+@views.route('/image/<file>/')
+@login_required
+def get_image(file):
+    return send_from_directory("F:\\PyFlaskProjects\\MateSet\\website\\static\\images", file)

@@ -6,12 +6,13 @@ from datetime import datetime
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
+    profilePic = db.Column(db.String(100), default='tmpProfile.png')
     name = db.Column(db.String(100))
     userName = db.Column(db.String(100), unique=True)
     email = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(100))
     following = db.relationship('Follow', primaryjoin='User.userName == Follow.user')
-    posts = db.relationship('Post')
+    posts = db.relationship('Post', primaryjoin='User.userName == Post.userName')
     liked = db.relationship('Like')
     messages = db.relationship('Message', primaryjoin='User.id == Message.fromUserId')
 
@@ -25,6 +26,7 @@ class Post(db.Model):
     postDate = db.Column(db.String(20), default=datetime.today().strftime("%d/%m/%Y-%I:%M%p"))
     desc = db.Column(db.String(100))
     userName = db.Column(db.String(100), ForeignKey('user.userName'))
+    userpic = db.Column(db.String(100), ForeignKey('user.profilePic'))
     likes = db.Column(db.Integer, default=0)
     liked = db.relationship('Like')
 

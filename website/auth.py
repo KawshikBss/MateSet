@@ -3,6 +3,8 @@ from . import db
 from .models import User
 from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
+from os import path
 
 # defining blueprint
 auth = Blueprint("auth", __name__)
@@ -79,6 +81,13 @@ def settings():
             flash("Must confirm current password to save changes")
         else:
             if check_password_hash(current_user.password, currPassword):
+                profilePic = request.files['profilePic']
+                if profilePic.filename:
+                    current_user.profilePic = profilePic.filename
+                    for post in current_user.posts:
+                        post.userpic = profilePic.filename
+                    profilePic.save(path.join("F:\\PyFlaskProjects\\MateSet\\website\\static\\images", secure_filename(profilePic.filename)))
+                    flash("Profile picture changed")
                 newUserName = request.form['username']
                 if newUserName:
                     if len(newUserName) < 2:
@@ -122,5 +131,8 @@ def settings():
                 db.session.commit()
             else:
                 flash("Current password doesn't match")
+
+    userPosts = current_user.posts
+    print(userPosts)
         
     return render_template('settings.html', user=current_user)

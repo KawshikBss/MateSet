@@ -55,7 +55,7 @@
                     <div class="card gedf-card">
                         <div class="card-body">
                             <div class="mr-2">
-                                <img class="rounded-circle" width="100" src="{{ url_for('static', filename='images/7.jfif') }}" alt="">
+                                <img class="rounded-circle" width="100" height="100" src="{{ url_for('views.get_image', file=user.profilePic) }}" alt="">
                             </div>
                             <div class="h5 mt-4">{{ user.userName }}</div>
                             <div class="h6 text-muted mb-5">{{ user.name }}</div>
@@ -69,7 +69,7 @@
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="d-flex justify-content-between align-items-center pt-5">
                                             <div class="mr-2">
-                                                <img class="rounded-circle" width="45" src="{{ url_for('static', filename='images/7.jfif') }}" alt="">
+                                                <img class="rounded-circle" width="45" height="45" src="{{ url_for('views.get_image', file=user.profilePic) }}" alt="">
                                             </div>
                                             <div class="ml-2">
                                                 <div class="h5 m-0">{{ post.userName }}</div>
@@ -99,7 +99,7 @@
                                 {% for usr in sugs %}
                                     <div class="d-flex mb-4">
                                         <div class="mr-1">
-                                            <img class="rounded-circle" width="45" src="{{ url_for('static', filename='images/7.jfif') }}" alt="">
+                                            <img class="rounded-circle" width="45" height="45" src="{{ url_for('views.get_image', file=usr.profilePic) }}" alt="">
                                         </div>
                                         <div class="ml-1">
                                             <div class="h6 m-0 mt-1" style="font-size: 14px;">

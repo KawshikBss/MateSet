@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MateSet - Following</title>
+    <title>MateSet - Message</title>
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
     rel="stylesheet"
     integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
@@ -89,6 +89,27 @@
                         {% endfor %}
                     {% endif %}
                     <h6 class="card-title mt-3 mb-5">Message requests<span class="ml-5">:</span></h6>
+                    {% if msgReqs %}
+                        {% for usr in msgReqs %}
+                            <div class="d-flex mb-4">
+                                <div class="mr-1">
+                                    <img class="rounded-circle" width="45" src="{{ url_for('static', filename='images/7.jfif') }}" alt="">
+                                </div>
+                                <div class="ml-1">
+                                    <div class="h6 m-0 mt-1" style="font-size: 14px;"><a class="mscol" href="{{ url_for('views.profile', username=usr.userName) }}">{{ usr.userName }}</a></div>
+                                    <div class="h7 text-muted" style="font-size: 12px;">
+                                        <span>
+                                            {{ usr.name }}
+                                            <a href="/messages/{{ usr.userName }}" class="card-link">
+                                                <i class="fa fa-envelope fa-2x mscol2" style="margin-left: 65px;"></i>
+                                            </a>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                        {% endfor %}
+                    {% endif %}
                 </div>
                 <div class="col-md-3" id="suggested">
                         <div class="card-body">

@@ -23,3 +23,13 @@ def get_messages_for_user(user, otherUser):
     allMsgs = Message.query.all()
     msgs = [msg for msg in allMsgs if (msg.fromUserId == user.id and msg.toUserId == otherUser.id) or (msg.fromUserId == otherUser.id and msg.toUserId == user.id)]
     return msgs
+
+def get_message_requests(user):
+    allMsgs = Message.query.filter_by(toUserId=user.id).all()
+    usersFollowing = get_users_following(user)
+    users = []
+    for msg in allMsgs:
+        tmpUser = User.query.filter_by(id=msg.fromUserId).first()
+        if tmpUser not in users and tmpUser not in usersFollowing:
+            users.append(tmpUser)
+    return users

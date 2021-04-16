@@ -19,6 +19,9 @@ def get_posts_for_user(user):
     posts = Post.query.all()
     return [post for post in posts if (post.userName in usersFollowing or post.userName == user.userName) and is_recent(post.postDate)]
 
+def get_posts_liked_by_users(user):
+    return [like.post for like in user.liked]
+
 def get_messages_for_user(user, otherUser):
     allMsgs = Message.query.all()
     msgs = [msg for msg in allMsgs if (msg.fromUserId == user.id and msg.toUserId == otherUser.id) or (msg.fromUserId == otherUser.id and msg.toUserId == user.id)]

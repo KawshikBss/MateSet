@@ -120,10 +120,17 @@
                                             {{ post.likes }}
                                         </a>
                                     {% endif %}
-                                    <a href="#" class="card-link" onclick="likePost({{ post.id }});">
-                                        <i class="fa fa-thumbs-down mr-2 mscol2" aria-hidden="true"></i>
-                                        0
-                                    </a>
+                                    {% if post.id in disLikedPosts %}
+                                        <a href="#" class="card-link" onclick="disLikePost({{ post.id }});">
+                                            <i class="fa fa-thumbs-down mr-2 mscol2" aria-hidden="true"></i>
+                                            {{ post.disLikes }}
+                                        </a>
+                                    {% else %}
+                                        <a href="#" class="card-link" onclick="disLikePost({{ post.id }});">
+                                            <i class="fa fa-thumbs-down mr-2" aria-hidden="true"></i>
+                                            {{ post.disLikes }}
+                                        </a>
+                                    {% endif %}
                                     <a href="#" class="card-link"><i class="fa fa-comment mr-2 mscol2" aria-hidden="true"></i> 05</a>
                                 </div>
                             </div>
@@ -175,6 +182,15 @@
     <script>
         function likePost(postId) {
             fetch("/like-post", {
+                method: "POST",
+                body: JSON.stringify({ postId: postId }),
+            }).then((_res) => {
+                window.location.href = "{{ url_for('views.home') }}";
+            });
+        }
+
+        function disLikePost(postId) {
+            fetch("/dis-like-post", {
                 method: "POST",
                 body: JSON.stringify({ postId: postId }),
             }).then((_res) => {

@@ -19,8 +19,24 @@ def get_posts_for_user(user):
     posts = Post.query.all()
     return [post for post in posts if (post.userName in usersFollowing or post.userName == user.userName) and is_recent(post.postDate)]
 
+def get_post_reacts(post, user):
+    reacts = [False, False]
+    for like in post.liked:
+        if like.user == user.userName:
+            reacts[0] = like
+            break
+
+    for disLike in post.disLiked:
+        if disLike.user == user.userName:
+            reacts[1] = disLike
+            break
+    return reacts
+
 def get_posts_liked_by_users(user):
     return [like.post for like in user.liked]
+
+def get_posts_disliked_by_users(user):
+    return [disLike.post for disLike in user.disLiked]
 
 def get_messages_for_user(user, otherUser):
     allMsgs = Message.query.all()

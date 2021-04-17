@@ -19,8 +19,9 @@ def home():
         db.session.commit()
     posts = get_posts_for_user(current_user)
     likedPosts = get_posts_liked_by_users(current_user)
+    disLikedPosts = get_posts_disliked_by_users(current_user)
     suggestions = get_users_suggestions(current_user)
-    return render_template('home.html', user=current_user, posts=posts, likedPosts =likedPosts, sugs=suggestions)
+    return render_template('home.html', user=current_user, posts=posts, likedPosts=likedPosts, disLikedPosts=disLikedPosts, sugs=suggestions)
 
 @views.route('/<username>/')
 @login_required
@@ -28,7 +29,8 @@ def profile(username):
     suggestions = get_users_suggestions(current_user)
     user = User.query.filter_by(userName=username).first()
     likedPosts = get_posts_liked_by_users(current_user)
-    return render_template('profile.html', user=user, sugs=suggestions, likedPosts =likedPosts)
+    disLikedPosts = get_posts_disliked_by_users(current_user)
+    return render_template('profile.html', user=user, sugs=suggestions, likedPosts=likedPosts, disLikedPosts=disLikedPosts)
 
 @views.route('/following/')
 @login_required

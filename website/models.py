@@ -14,6 +14,7 @@ class User(db.Model, UserMixin):
     following = db.relationship('Follow', primaryjoin='User.userName == Follow.user')
     posts = db.relationship('Post', primaryjoin='User.userName == Post.userName')
     liked = db.relationship('Like')
+    disLiked = db.relationship('DisLike')
     messages = db.relationship('Message', primaryjoin='User.id == Message.fromUserId')
 
 class Follow(db.Model):
@@ -28,9 +29,16 @@ class Post(db.Model):
     userName = db.Column(db.String(100), ForeignKey('user.userName'))
     userpic = db.Column(db.String(100), ForeignKey('user.profilePic'))
     likes = db.Column(db.Integer, default=0)
+    disLikes = db.Column(db.Integer, default=0)
     liked = db.relationship('Like')
+    disLiked = db.relationship('DisLike')
 
 class Like(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    post = db.Column(db.Integer, ForeignKey('post.id'))
+    user = db.Column(db.String(100), ForeignKey('user.userName'))
+
+class DisLike(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     post = db.Column(db.Integer, ForeignKey('post.id'))
     user = db.Column(db.String(100), ForeignKey('user.userName'))

@@ -103,11 +103,13 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card-body">
-                                    <p class="card-text text-muted">
-                                        {{ post.desc }}
-                                    </p>
-                                </div>
+                                <a href="/post/{{ post.id }}/">
+                                    <div class="card-body">
+                                        <p class="card-text text-muted">
+                                            {{ post.desc }}
+                                        </p>
+                                    </div>
+                                </a>
                                 <div class="card-footer">
                                     {% if post.id in likedPosts %}
                                         <a href="#" class="card-link" onclick="likePost({{ post.id }});">

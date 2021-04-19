@@ -168,7 +168,7 @@
                 method: "POST",
                 body: JSON.stringify({ postId: postId }),
             }).then((_res) => {
-                window.location.href = "{{ url_for('views.home') }}";
+                window.location.href = "{{ url_for('views.profile', username=user.userName) }}";
             });
         }
 

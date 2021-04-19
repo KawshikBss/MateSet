@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash, send_from_directory
 from flask_login import login_required, current_user
-from .models import User, Post, Message
+from .models import User, Post, Message, Comment
 from . import db
 from .getFromModels import *
 #from file import send_image
@@ -32,10 +32,18 @@ def profile(username):
     disLikedPosts = get_posts_disliked_by_users(current_user)
     return render_template('profile.html', user=user, sugs=suggestions, likedPosts=likedPosts, disLikedPosts=disLikedPosts)
 
-@views.route('/post/<postId>/')
+@views.route('/post/<postId>/', methods=['POST', 'GET'])
 @login_required
 def post(postId):
     post = Post.query.filter_by(id=postId).first()
+    if request.method == 'POST':
+        comment = request.form['comment']
+        if len(comment) > 0:
+            db.session.add(Comment(desc=comment, postId=postId, userName=current_user.userName))
+            post.comments += 1
+            db.session.commit()
+        else:
+            flash("Cannot post an empty comment")
     likedPosts = get_posts_liked_by_users(current_user)
     disLikedPosts = get_posts_disliked_by_users(current_user)
     suggestions = get_users_suggestions(current_user)

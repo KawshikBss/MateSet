@@ -93,10 +93,37 @@
                                     {{ post.disLikes }}
                                 </a>
                             {% endif %}
-                            <a href="#" class="card-link"><i class="fa fa-comment mr-2 mscol2" aria-hidden="true"></i> 05</a>
+                            <a href="#" class="card-link">
+                                <i class="fa fa-comment mr-2 mscol2" aria-hidden="true"></i>
+                                {{ post.comments }}
+                            </a>
                         </div>
                     </div>
                     <br>
+                    {% if post.commented %}
+                        {% for comment in post.commented %}
+                            <div class="card comment gedf-card">
+                                <div class="card-header">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="d-flex justify-content-between align-items-center pt-5">
+                                            <div class="mr-2">
+                                                <img class="rounded-circle" width="45" height="45" src="{{ url_for('views.get_image', file=user.profilePic) }}" alt="">
+                                            </div>
+                                            <div class="ml-2">
+                                                <div class="h5 m-0">{{ comment.userName }}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text text-muted">
+                                        {{ comment.desc }}
+                                    </p>
+                                </div>
+                            </div>
+                            <br>
+                        {% endfor %}
+                    {% endif %}
                     <form class="comment-form" method="post">
                         <textarea class="comment-text-area" name="comment" rows="1" placeholder="Add a comment..."></textarea>
                         <button type="submit" class="btn btn-primary mscol"><i class="fa fa-comment mr-2 mscol2" aria-hidden="true"></i></button>

@@ -32,6 +32,16 @@ def profile(username):
     disLikedPosts = get_posts_disliked_by_users(current_user)
     return render_template('profile.html', user=user, sugs=suggestions, likedPosts=likedPosts, disLikedPosts=disLikedPosts)
 
+@views.route('/post/<postId>/')
+@login_required
+def post(postId):
+    post = Post.query.filter_by(id=postId).first()
+    likedPosts = get_posts_liked_by_users(current_user)
+    disLikedPosts = get_posts_disliked_by_users(current_user)
+    suggestions = get_users_suggestions(current_user)
+    return render_template('post.html', user=current_user, likedPosts=likedPosts, disLikedPosts=disLikedPosts, post=post, sugs=suggestions)
+
+
 @views.route('/following/')
 @login_required
 def following():

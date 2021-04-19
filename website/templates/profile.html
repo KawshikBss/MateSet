@@ -72,16 +72,22 @@
                                                 <img class="rounded-circle" width="45" height="45" src="{{ url_for('views.get_image', file=user.profilePic) }}" alt="">
                                             </div>
                                             <div class="ml-2">
-                                                <div class="h5 m-0">{{ post.userName }}</div>
+                                                <div class="h5 m-0">
+                                                    <a class="msp" href="{{ url_for('views.profile', username=post.userName) }}">
+                                                        {{ post.userName }}
+                                                    </a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card-body">
-                                    <p class="card-text text-muted">
-                                        {{ post.desc }}
-                                    </p>
-                                </div>
+                                <a href="/post/{{ post.id }}/">
+                                    <div class="card-body">
+                                        <p class="card-text text-muted">
+                                            {{ post.desc }}
+                                        </p>
+                                    </div>
+                                </a>
                                 <div class="card-footer">
                                     {% if post.id in likedPosts %}
                                         <a href="#" class="card-link" onclick="likePost({{ post.id }});">
@@ -105,7 +111,10 @@
                                             {{ post.disLikes }}
                                         </a>
                                     {% endif %}
-                                    <a href="#" class="card-link"><i class="fa fa-comment mr-2 mscol2" aria-hidden="true"></i> 05</a>
+                                    <a href="{{ url_for('views.post', postId=post.id) }}" class="card-link">
+                                        <i class="fa fa-comment mr-2 mscol2" aria-hidden="true"></i>
+                                        {{ post.comments }}
+                                    </a>
                                 </div>
                             </div>
                             <br>

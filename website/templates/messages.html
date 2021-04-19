@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>MateSet - {{ toUser.userName }} Messages</title>
         <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
         rel="stylesheet"
         integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
@@ -17,7 +17,7 @@
 </head>
 <body>
     <div class="menu">
-        <div class="back"><a href="{{ url_for('views.message') }}"><i class="fa fa-chevron-left"></i></a> <img src="{{ url_for('static', filename='images/7.jfif') }}" draggable="false"/></div>
+        <div class="back"><a href="{{ url_for('views.message') }}"><i class="fa fa-chevron-left"></i></a> <img src="{{ url_for('views.get_image', file=toUser.profilePic) }}" draggable="false"/></div>
         <div class="name">{{ toUser.userName }}</div>
     </div>
     {% if msgs %}

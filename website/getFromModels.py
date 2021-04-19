@@ -1,6 +1,7 @@
 from .models import User, Post, Message
 from .dateFunction import is_recent
 from . import db
+import random
 
 def get_users_following(user):
     nameUsersFollowing = get_users_following_name(user)
@@ -12,7 +13,9 @@ def get_users_following_name(user):
 
 def get_users_suggestions(user):
     usersFollowing = get_users_following_name(user)
-    return [sug for sug in User.query.all() if not sug.id == user.id and sug.userName not in usersFollowing]
+    suggestions = [sug for sug in User.query.all() if not sug.id == user.id and sug.userName not in usersFollowing]
+    random.shuffle(suggestions)
+    return suggestions[:10]
 
 def get_posts_for_user(user):
     usersFollowing = get_users_following_name(user)

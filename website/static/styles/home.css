@@ -17,6 +17,22 @@
     border: none;
 }
 
+.card.comment.gedf-card {
+    flex-direction: row-reverse;
+    align-items: center;
+}
+
+.comment-form {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+textarea.comment-text-area {
+    width: 85%;
+    height: 100%;
+}
+
 .btn-outline-primary {
     color: gray;
     /*background-color: transparent;
@@ -78,9 +94,9 @@ i.mscol2 {
     color: #5245ca;
 }
 
-/*.card-body {
-    background-color: #5245ca;
-}*/
+a:hover {
+    text-decoration: none;
+}
 
 .card-body .d-flex h6 {
     font-size: 13px;

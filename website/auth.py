@@ -133,6 +133,5 @@ def settings():
                 flash("Current password doesn't match")
 
     userPosts = current_user.posts
-    print(userPosts)
         
     return render_template('settings.html', user=current_user)

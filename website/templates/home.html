@@ -109,6 +109,11 @@
                                             {{ post.desc }}
                                         </p>
                                     </div>
+                                    {% if post.img %}
+                                        <div class="card mr-3">
+                                            <img src="{{ url_for('views.get_image', file=post.img) }}" class="card-img-top" alt="...">
+                                        </div>
+                                    {% endif %}
                                 </a>
                                 <div class="card-footer">
                                     {% if post.id in likedPosts %}

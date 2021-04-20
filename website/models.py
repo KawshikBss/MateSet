@@ -57,4 +57,5 @@ class Message(db.Model):
     fromUserId = db.Column(db.Integer, ForeignKey('user.id'))
     toUserId = db.Column(db.Integer, ForeignKey('user.id'))
     msg = db.Column(db.String(100))
+    img = db.Column(db.String(100), default=None)
     date = db.Column(db.String(7), default=datetime.today().strftime("%d/%m/%Y-%I:%M%p"))

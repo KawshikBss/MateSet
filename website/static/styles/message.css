@@ -310,6 +310,11 @@ a i {
 .textarea input {
     width: 80%;
 }
+
+.textarea input.foo {
+    width: 10%;
+}
+
 .textarea button {
     width: 20%;
     background-color: #5245ca;

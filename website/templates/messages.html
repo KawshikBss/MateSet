@@ -13,6 +13,7 @@
         integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
         crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/message.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/upload.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
 </head>
 <body>
@@ -28,6 +29,9 @@
                     <div class="avatar"><img src="{{ url_for('views.get_image', file=user.profilePic) }}" draggable="false"/></div>
                     <div class="msg">
                         <p>{{ msg.msg }}</p>
+                        {% if msg.img %}
+                            <img src="{{ url_for('views.get_image', file=msg.img) }}">
+                        {% endif %}
                         <time>{{ msg.date }}</time>
                     </div>
                 </li>
@@ -43,7 +47,8 @@
         {% endfor %}
         </ol>
     {% endif %}
-    <form class="textarea" method="post">
+    <form class="textarea" method="post" enctype="multipart/form-data">
+        <input type="file" name="image" class="foo" accept="image/*">
         <input type="text" name="msg" placeholder="Type here!"/>
         <button class="btn btn-primary mscol" type="submit"><i class="far fa-paper-plane"></i></button>
     </form>

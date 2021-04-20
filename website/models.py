@@ -27,6 +27,7 @@ class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     postDate = db.Column(db.String(20), default=datetime.today().strftime("%d/%m/%Y-%I:%M%p"))
     desc = db.Column(db.String(100))
+    img = db.Column(db.String(100), default=None)
     userName = db.Column(db.String(100), ForeignKey('user.userName'))
     userpic = db.Column(db.String(100), ForeignKey('user.profilePic'))
     likes = db.Column(db.Integer, default=0)

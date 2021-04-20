@@ -3,7 +3,8 @@ from flask_login import login_required, current_user
 from .models import User, Post, Message, Comment
 from . import db
 from .getFromModels import *
-#from file import send_image
+from os import path
+from werkzeug.utils import secure_filename
 
 # defining blueprint
 views = Blueprint("views", __name__)
@@ -15,7 +16,12 @@ views = Blueprint("views", __name__)
 def home():
     if request.method == 'POST':
         desc = request.form['post']
-        db.session.add(Post(desc=desc, userName=current_user.userName, userpic=current_user.profilePic))
+        postImg = request.files['image']
+        if postImg.filename:
+            db.session.add(Post(desc=desc, userName=current_user.userName, userpic=current_user.profilePic, img=postImg.filename.replace(' ', '_')))
+            postImg.save(path.join("F:\\PyFlaskProjects\\MateSet\\website\\static\\images", secure_filename(postImg.filename.replace(' ', '_')))
+        else:
+            db.session.add(Post(desc=desc, userName=current_user.userName, userpic=current_user.profilePic)
         db.session.commit()
     posts = get_posts_for_user(current_user)
     likedPosts = get_posts_liked_by_users(current_user)

@@ -3,8 +3,8 @@ from flask_login import login_required, current_user
 from .models import User, Post, Message, Comment
 from . import db
 from .getFromModels import *
-from os import path
 from werkzeug.utils import secure_filename
+from os import path
 
 # defining blueprint
 views = Blueprint("views", __name__)
@@ -75,7 +75,12 @@ def messages(toUserName):
     toUser = User.query.filter_by(userName=toUserName).first()
     if request.method == 'POST':
         msg = request.form['msg']
-        db.session.add(Message(fromUserId=current_user.id, toUserId=toUser.id, msg=msg))
+        img = request.files['image']
+        if img.filename:
+            db.session.add(Message(fromUserId=current_user.id, toUserId=toUser.id, msg=msg, img=img.filename.replace(' ', '_')))
+            img.save(path.join("F:\\PyFlaskProjects\\MateSet\\website\\static\\images", secure_filename(img.filename.replace(' ', '_'))))
+        else:
+            db.session.add(Message(fromUserId=current_user.id, toUserId=toUser.id, msg=msg))
         db.session.commit()
     msgs = get_messages_for_user(current_user, toUser)
     return render_template('messages.html', user=current_user, toUser=toUser, msgs=msgs)

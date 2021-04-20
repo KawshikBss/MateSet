@@ -13,6 +13,7 @@
     integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
     crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/home.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/upload.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/alerts.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/userLink.css') }}">
 </head>
@@ -78,6 +79,7 @@
                                     </div>
                                 </div>
                                 <div class="btn-group">
+                                    <input type="file" name="image" class="foo" accept="image/*">
                                     <button type="submit" class="btn btn-primary mscol">Post</button>
                                 </div>
                             </form>

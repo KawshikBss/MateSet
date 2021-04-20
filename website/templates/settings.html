@@ -14,6 +14,7 @@
     crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/home.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/alerts.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/upload.css') }}">
 </head>
 <body>
     {% with messages = get_flashed_messages() %}
@@ -70,7 +71,7 @@
                                 </div>
                                 <div>
                                     <h5>Change Profile Picture</h5>
-                                    <input name="profilePic" class="input" type="file" accept="image/*">
+                                    <input type="file" name="profilePic" class="foo" accept="image/*">
                                 </div>
                             </div>
                             <div class="input-div one">

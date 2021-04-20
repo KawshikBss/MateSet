@@ -83,10 +83,10 @@ def settings():
             if check_password_hash(current_user.password, currPassword):
                 profilePic = request.files['profilePic']
                 if profilePic.filename:
-                    current_user.profilePic = profilePic.filename
+                    current_user.profilePic = profilePic.filename.replace(' ', '_')
                     for post in current_user.posts:
                         post.userpic = profilePic.filename
-                    profilePic.save(path.join("F:\\PyFlaskProjects\\MateSet\\website\\static\\images", secure_filename(profilePic.filename)))
+                    profilePic.save(path.join("F:\\PyFlaskProjects\\MateSet\\website\\static\\images", secure_filename(profilePic.filename.replace(' ', '_'))))
                     flash("Profile picture changed")
                 newUserName = request.form['username']
                 if newUserName:
@@ -133,6 +133,5 @@ def settings():
                 flash("Current password doesn't match")
 
     userPosts = current_user.posts
-    print(userPosts)
         
     return render_template('settings.html', user=current_user)

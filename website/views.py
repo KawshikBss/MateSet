@@ -19,9 +19,9 @@ def home():
         postImg = request.files['image']
         if postImg.filename:
             db.session.add(Post(desc=desc, userName=current_user.userName, userpic=current_user.profilePic, img=postImg.filename.replace(' ', '_')))
-            postImg.save(path.join("F:\\PyFlaskProjects\\MateSet\\website\\static\\images", secure_filename(postImg.filename.replace(' ', '_')))
+            postImg.save(path.join("F:\\PyFlaskProjects\\MateSet\\website\\static\\images", secure_filename(postImg.filename.replace(' ', '_'))))
         else:
-            db.session.add(Post(desc=desc, userName=current_user.userName, userpic=current_user.profilePic)
+            db.session.add(Post(desc=desc, userName=current_user.userName, userpic=current_user.profilePic))
         db.session.commit()
     posts = get_posts_for_user(current_user)
     likedPosts = get_posts_liked_by_users(current_user)

@@ -36,7 +36,7 @@ def profile(username):
     user = User.query.filter_by(userName=username).first()
     likedPosts = get_posts_liked_by_users(current_user)
     disLikedPosts = get_posts_disliked_by_users(current_user)
-    return render_template('profile.html', user=user, sugs=suggestions, likedPosts=likedPosts, disLikedPosts=disLikedPosts)
+    return render_template('profile.html', current_user=current_user, user=user, sugs=suggestions, likedPosts=likedPosts, disLikedPosts=disLikedPosts)
 
 @views.route('/post/<postId>/', methods=['POST', 'GET'])
 @login_required
@@ -55,6 +55,26 @@ def post(postId):
     suggestions = get_users_suggestions(current_user)
     return render_template('post.html', user=current_user, likedPosts=likedPosts, disLikedPosts=disLikedPosts, post=post, sugs=suggestions)
 
+@views.route('/edit-post/<postId>/', methods=['POST', 'GET'])
+@login_required
+def edit_post(postId):
+    post = Post.query.filter_by(id=postId).first()
+    if request.method == 'POST':
+        desc = request.form['desc']
+        img = request.files['image']
+        if desc or img:
+            if len(desc) > 0 and desc:
+                post.desc = desc
+            if img.filename:
+                post.img = img.filename.replace(' ', '_')
+                img.save(path.join("F:\\PyFlaskProjects\\MateSet\\website\\static\\images", secure_filename(img.filename.replace(' ', '_'))))
+            db.session.commit()
+        else:
+            flash("No changes were made")
+    likedPosts = get_posts_liked_by_users(current_user)
+    disLikedPosts = get_posts_disliked_by_users(current_user)
+    suggestions = get_users_suggestions(current_user)
+    return render_template('edit-post.html', user=current_user, likedPosts=likedPosts, disLikedPosts=disLikedPosts, post=post, sugs=suggestions)
 
 @views.route('/following/')
 @login_required

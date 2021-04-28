@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from . import db
-from .models import User
+from .models import User, Post
 from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
@@ -87,6 +87,7 @@ def settings():
                     for post in current_user.posts:
                         post.userpic = profilePic.filename
                     profilePic.save(path.join("F:\\PyFlaskProjects\\MateSet\\website\\static\\images", secure_filename(profilePic.filename.replace(' ', '_'))))
+                    db.session.add(Post(desc=f'{ current_user.userName } changed his profile picture', userName=current_user.userName, userpic=profilePic.filename.replace(' ', '_'), img=profilePic.filename.replace(' ', '_')))
                     flash("Profile picture changed")
                 newUserName = request.form['username']
                 if newUserName:

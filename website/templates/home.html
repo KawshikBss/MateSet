@@ -52,6 +52,9 @@
                                 <div class="h6 text-muted mscol"><i class="fa fa-history mscol mr-4"></i><a href="/">Timeline</a></div>
                             </li>
                             <li class="list-group-item mscol">
+                                <div class="h6 text-muted mscol"><i class="fa fa-bell mscol mr-4"></i><a href="#">Notifications</a></div>
+                            </li>
+                            <li class="list-group-item mscol">
                                 <div class="h6 text-muted mscol"><i class="fa fa-user mscol mr-4"></i><a href="{{ url_for('views.following') }}">Following</a></div>
                             </li>
                             <li class="list-group-item mscol">
@@ -144,6 +147,11 @@
                                         <i class="fa fa-comment mr-2 mscol2" aria-hidden="true"></i>
                                         {{ post.comments }}
                                     </a>
+                                    {% if post.userName == user.userName %}
+                                        <a href="{{ url_for('views.edit_post', postId=post.id) }}" class="card-link">
+                                            <i class="fas fa-edit mr-2 mscol2" aria-hidden="true"></i>
+                                        </a>
+                                    {% endif %}
                                 </div>
                             </div>
                             <br>

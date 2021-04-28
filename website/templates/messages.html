@@ -40,6 +40,9 @@
                     <div class="avatar"><img src="{{ url_for('views.get_image', file=toUser.profilePic) }}" draggable="false"/></div>
                     <div class="msg">
                         <p>{{ msg.msg }}</p>
+                        {% if msg.img %}
+                            <img src="{{ url_for('views.get_image', file=msg.img) }}">
+                        {% endif %}
                         <time>{{ msg.date }}</time>
                     </div>
                 </li>

@@ -81,7 +81,7 @@ def edit_post(postId):
 @login_required
 def activities():
     suggestions = get_users_suggestions(current_user)
-    return render_template('activities.html', user=current_user, sugs=suggestions)
+    return render_template('activities.html', user=current_user, acts=get_activities(current_user), sugs=suggestions)
 
 @views.route('/following/')
 @login_required

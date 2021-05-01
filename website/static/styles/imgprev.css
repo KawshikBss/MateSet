@@ -1,8 +1,6 @@
 .thumb{
     position:relative;
-    height:300px;
-    width:300px;
-    overflow:hidden;
+    width:200px;
     margin:40px 0;
     cursor:move;
     

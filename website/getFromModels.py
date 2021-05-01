@@ -1,4 +1,4 @@
-from .models import User, Post, Message
+from .models import User, Post, Message, Activity
 from .dateFunction import is_recent
 from . import db
 import random
@@ -6,21 +6,28 @@ import random
 def get_users_following(user):
     nameUsersFollowing = get_users_following_name(user)
     users = User.query.all()
-    return [usr for usr in users if usr.userName in nameUsersFollowing].reverse()
+    return [usr for usr in users if usr.userName in nameUsersFollowing][::-1]
 
 def get_users_following_name(user):
-    return [usr.followedUser for usr in user.following].reverse()
+    following = user.following
+    return [usr.followedUser for usr in following][::-1]
 
 def get_users_suggestions(user):
     usersFollowing = get_users_following_name(user)
-    suggestions = [sug for sug in User.query.all() if not sug.id == user.id and sug.userName not in usersFollowing]
+    users = User.query.all()
+    suggestions = [sug for sug in users if not sug.id == user.id and sug.userName not in usersFollowing]
+    suggestions = suggestions[:10]
     random.shuffle(suggestions)
-    return suggestions[:10]
+    return suggestions
 
 def get_posts_for_user(user):
     usersFollowing = get_users_following_name(user)
     posts = Post.query.all()
-    return [post for post in posts if (post.userName in usersFollowing or post.userName == user.userName) and is_recent(post.postDate)].reverse()
+    if posts:
+        posts = [post for post in posts if (post.userName in usersFollowing or post.userName == user.userName) and is_recent(post.postDate)]
+        return posts[::-1]
+    else:
+        return []
 
 def get_post_reacts(post, user):
     reacts = [False, False]
@@ -54,4 +61,8 @@ def get_message_requests(user):
         tmpUser = User.query.filter_by(id=msg.fromUserId).first()
         if tmpUser not in users and tmpUser not in usersFollowing:
             users.append(tmpUser)
-    return users.reverse()
+    return users[::-1]
+
+def get_activities(user):
+    activitis = user.activities
+    return [act for act in activitis if is_recent(act.activityDate)][::-1]

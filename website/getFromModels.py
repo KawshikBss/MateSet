@@ -6,10 +6,10 @@ import random
 def get_users_following(user):
     nameUsersFollowing = get_users_following_name(user)
     users = User.query.all()
-    return [usr for usr in users if usr.userName in nameUsersFollowing]
+    return [usr for usr in users if usr.userName in nameUsersFollowing].reverse()
 
 def get_users_following_name(user):
-    return [usr.followedUser for usr in user.following]
+    return [usr.followedUser for usr in user.following].reverse()
 
 def get_users_suggestions(user):
     usersFollowing = get_users_following_name(user)
@@ -20,7 +20,7 @@ def get_users_suggestions(user):
 def get_posts_for_user(user):
     usersFollowing = get_users_following_name(user)
     posts = Post.query.all()
-    return [post for post in posts if (post.userName in usersFollowing or post.userName == user.userName) and is_recent(post.postDate)]
+    return [post for post in posts if (post.userName in usersFollowing or post.userName == user.userName) and is_recent(post.postDate)].reverse()
 
 def get_post_reacts(post, user):
     reacts = [False, False]
@@ -54,4 +54,4 @@ def get_message_requests(user):
         tmpUser = User.query.filter_by(id=msg.fromUserId).first()
         if tmpUser not in users and tmpUser not in usersFollowing:
             users.append(tmpUser)
-    return users
+    return users.reverse()

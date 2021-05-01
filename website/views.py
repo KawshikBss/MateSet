@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash, send_from_directory
 from flask_login import login_required, current_user
-from .models import User, Post, Message, Comment
+from .models import User, Post, Message, Comment, Activity
 from . import db
 from .getFromModels import *
 from werkzeug.utils import secure_filename
@@ -46,6 +46,7 @@ def post(postId):
         comment = request.form['comment']
         if len(comment) > 0:
             db.session.add(Comment(desc=comment, postId=postId, userName=current_user.userName))
+            db.session.add(Activity(fromUser=current_user.userName, toUser=post.userName, desc=f'{ current_user.userName } commented on your post', link=f'/post/{ postId }/'))
             post.comments += 1
             db.session.commit()
         else:
@@ -75,6 +76,12 @@ def edit_post(postId):
     disLikedPosts = get_posts_disliked_by_users(current_user)
     suggestions = get_users_suggestions(current_user)
     return render_template('edit-post.html', user=current_user, likedPosts=likedPosts, disLikedPosts=disLikedPosts, post=post, sugs=suggestions)
+
+@views.route('/activities/')
+@login_required
+def activities():
+    suggestions = get_users_suggestions(current_user)
+    return render_template('activities.html', user=current_user, sugs=suggestions)
 
 @views.route('/following/')
 @login_required

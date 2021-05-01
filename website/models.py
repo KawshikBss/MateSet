@@ -17,6 +17,7 @@ class User(db.Model, UserMixin):
     disLiked = db.relationship('DisLike')
     comments = db.relationship('Comment')
     messages = db.relationship('Message', primaryjoin='User.id == Message.fromUserId')
+    activities = db.relationship('Activity', primaryjoin='User.userName == Activity.toUser')
 
 class Follow(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -60,3 +61,11 @@ class Message(db.Model):
     msg = db.Column(db.String(100))
     img = db.Column(db.String(100), default=None)
     date = db.Column(db.String(7), default=datetime.today().strftime("%d/%m/%Y-%I:%M%p"))
+
+class Activity(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    fromUser = db.Column(db.String(100), ForeignKey('user.userName'))
+    toUser = db.Column(db.String(100), ForeignKey('user.userName'))
+    desc = db.Column(db.String(100))
+    link = db.Column(db.String(100))
+    activityDate = db.Column(db.String(20), default=datetime.today().strftime("%d/%m/%Y-%I:%M%p"))

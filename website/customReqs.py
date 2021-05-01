@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify, json
 from flask_login import current_user
-from .models import User, Follow, Post, Like, DisLike
+from .models import User, Follow, Post, Like, DisLike, Activity
 from . import db
 from .getFromModels import *
 
@@ -17,6 +17,7 @@ def like_post():
     if not ifUser[0] and not ifUser[1]:
         tmpPost.likes += 1
         db.session.add(Like(post=post, user=current_user.userName))
+        db.session.add(Activity(fromUser=current_user.userName, toUser=tmpPost.userName, desc=f'{ current_user.userName } liked your post', link=f'/post/{ post }/'))
     elif ifUser[0] and not ifUser[1]:
         tmpPost.likes -= 1
         db.session.delete(ifUser[0])
@@ -24,6 +25,7 @@ def like_post():
         tmpPost.likes += 1
         tmpPost.disLikes -= 1
         db.session.add(Like(post=post, user=current_user.userName))
+        db.session.add(Activity(fromUser=current_user.userName, toUser=tmpPost.userName, desc=f'{ current_user.userName } liked your post', link=f'/post/{ post }/'))
         db.session.delete(ifUser[1])
 
     db.session.commit()
@@ -38,11 +40,13 @@ def dis_like_post():
     if not ifUser[0] and not ifUser[1]:
         tmpPost.disLikes += 1
         db.session.add(DisLike(post=post, user=current_user.userName))
+        db.session.add(Activity(fromUser=current_user.userName, toUser=tmpPost.userName, desc=f'{ current_user.userName } disliked your post', link=f'/post/{ post }/'))
     
     elif ifUser[0] and not ifUser[1]:
         tmpPost.disLikes += 1
         tmpPost.likes -= 1
         db.session.add(DisLike(post=post, user=current_user.userName))
+        db.session.add(Activity(fromUser=current_user.userName, toUser=tmpPost.userName, desc=f'{ current_user.userName } disliked your post', link=f'/post/{ post }/'))
         db.session.delete(ifUser[0])
 
     elif not ifUser[0] and ifUser[1]:
@@ -58,6 +62,7 @@ def follow_user():
     targetId = json.loads(request.data)['targetId']
     followedUser = User.query.filter_by(id=targetId).first().userName
     db.session.add(Follow(user=current_user.userName, followedUser=followedUser))
+    db.session.add(Activity(fromUser=current_user.userName, toUser=followedUser, desc=f'{ current_user.userName } followed you', link=f'{ current_user.userName }/'))
     db.session.commit()
 
     return jsonify({})

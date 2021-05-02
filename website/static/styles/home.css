@@ -155,21 +155,11 @@ textarea.form-control {
 }
 
 .btn-group>.btn {
-    margin-left: 290px;
-    padding: 8px 30px 8px 30px;
-    background-color:   #4f94cd;
     border: none;
 }
 
 .btn-group .foo {
     width: 20%;
-}
-
-@media (min-width: 992px) {
-    .gedf-main {
-        padding-left: .5rem;
-        padding-right: .5rem;
-    }
 }
 
 /**Reset Bootstrap*/

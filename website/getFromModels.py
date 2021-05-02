@@ -12,6 +12,11 @@ def get_users_following_name(user):
     following = user.following
     return [usr.followedUser for usr in following][::-1]
 
+def get_searched_users(name):
+    name = name.capitalize()
+    users = User.query.all()
+    return [user for user in users if (name in user.userName.capitalize()) or (name in user.name.capitalize())][::-1]
+
 def get_users_suggestions(user):
     usersFollowing = get_users_following_name(user)
     users = User.query.all()

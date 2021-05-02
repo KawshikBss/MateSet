@@ -35,7 +35,10 @@ def search():
     search = ''
     if request.method == 'POST':
         search = request.form['search']
-    return search
+    users = get_searched_users(search)
+    usersFollowing = get_users_following(current_user)
+    suggestions = get_users_suggestions(current_user)
+    return render_template('search.html', user=current_user, users=users, usersFollowing=usersFollowing, sugs=suggestions)
 
 @views.route('/<username>/')
 @login_required

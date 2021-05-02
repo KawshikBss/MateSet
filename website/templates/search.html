@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MateSet</title>
+    <title>MateSet - Following</title>
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
     rel="stylesheet"
     integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
@@ -13,10 +13,8 @@
     integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
     crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/home.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/upload.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/alerts.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/userLink.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/imgprev.css') }}">
 </head>
 <body>
     {% with messages = get_flashed_messages() %}
@@ -53,9 +51,6 @@
                                 <div class="h6 text-muted mscol"><i class="fa fa-history mscol mr-4"></i><a href="/">Timeline</a></div>
                             </li>
                             <li class="list-group-item mscol">
-                                <div class="h6 text-muted mscol"><i class="fa fa-bell mscol mr-4"></i><a href="{{ url_for('views.activities') }}">Activities</a></div>
-                            </li>
-                            <li class="list-group-item mscol">
                                 <div class="h6 text-muted mscol"><i class="fa fa-user mscol mr-4"></i><a href="{{ url_for('views.following') }}">Following</a></div>
                             </li>
                             <li class="list-group-item mscol">
@@ -71,89 +66,22 @@
                     </div>
                 </div>
                 <div class="col-md-6 gedf-main">
-                    <div class="card gedf-card">
-                        <div class="card-body" id="postcard">
-                            <form method="post" enctype="multipart/form-data">
-                                <div class="tab-content" id="myTabContent">
-                                    <div class="tab-pane fade show active" id="posts" role="tabpanel" aria-labelledby="posts-tab">
-                                        <div class="form-group">
-                                            <label class="sr-only" for="message">post</label>
-                                            <textarea class="form-control pt-4" name="post" id="message" rows="5" placeholder="Write Something..."></textarea>
-                                            <div class="thumb"><img id="img" src=""/></div>
-                                        </div>
-                                    </div>
+                    {% if users %}
+                        {% for usr in users %}
+                            <div class="d-flex mb-4">
+                                <div class="mr-1">
+                                    <img class="rounded-circle" width="45" height="45" src="{{ url_for('views.get_image', file=usr.profilePic) }}" alt="">
                                 </div>
-                                <div class="btn-group">
-                                    <input type="file" name="image" id="upload" class="foo" accept="image/*">
-                                    <button type="submit" class="btn btn-primary mscol">Post</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <br>
-                    {% if posts %}
-                        {% for post in posts %}
-                            <div class="card gedf-card">
-                                <div class="card-header">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="d-flex justify-content-between align-items-center pt-5">
-                                            <div class="mr-2">
-                                                <img class="rounded-circle" width="45" height="45" src="{{ url_for('views.get_image', file=post.userpic) }}" alt="">
-                                            </div>
-                                            <div class="ml-2">
-                                                <div class="h5 m-0">
-                                                    <a class="msp" href="{{ url_for('views.profile', username=post.userName) }}">
-                                                        {{ post.userName }}
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
+                                <div class="ml-1">
+                                    <div class="h6 m-0 mt-1" style="font-size: 14px;"><a class="mscol" href="{{ url_for('views.profile', username=usr.userName) }}">{{ usr.userName }}</a></div>
+                                    <div class="h7 text-muted" style="font-size: 12px;">
+                                        <span>
+                                            {{ usr.name }}
+                                            <a href="#" class="card-link" onclick="unFollowUser({{ usr.id }});">
+                                                <i class="fa fa-minus-circle fa-2x mscol2" style="margin-left: 65px;"></i>
+                                            </a>
+                                        </span>
                                     </div>
-                                </div>
-                                <a href="/post/{{ post.id }}/">
-                                    <div class="card-body">
-                                        <p class="card-text text-muted">
-                                            {{ post.desc }}
-                                        </p>
-                                    </div>
-                                    {% if post.img %}
-                                        <div class="card mr-3">
-                                            <img src="{{ url_for('views.get_image', file=post.img) }}" class="card-img-top" alt="...">
-                                        </div>
-                                    {% endif %}
-                                </a>
-                                <div class="card-footer">
-                                    {% if post.id in likedPosts %}
-                                        <a href="#" class="card-link" onclick="likePost({{ post.id }});">
-                                            <i class="fa fa-thumbs-up mr-2 mscol2" aria-hidden="true"></i>
-                                            {{ post.likes }}
-                                        </a>
-                                    {% else %}
-                                        <a href="#" class="card-link" onclick="likePost({{ post.id }});">
-                                            <i class="fa fa-thumbs-up mr-2" aria-hidden="true"></i>
-                                            {{ post.likes }}
-                                        </a>
-                                    {% endif %}
-                                    {% if post.id in disLikedPosts %}
-                                        <a href="#" class="card-link" onclick="disLikePost({{ post.id }});">
-                                            <i class="fa fa-thumbs-down mr-2 mscol2" aria-hidden="true"></i>
-                                            {{ post.disLikes }}
-                                        </a>
-                                    {% else %}
-                                        <a href="#" class="card-link" onclick="disLikePost({{ post.id }});">
-                                            <i class="fa fa-thumbs-down mr-2" aria-hidden="true"></i>
-                                            {{ post.disLikes }}
-                                        </a>
-                                    {% endif %}
-                                    <a href="{{ url_for('views.post', postId=post.id) }}" class="card-link">
-                                        <i class="fa fa-comment mr-2 mscol2" aria-hidden="true"></i>
-                                        {{ post.comments }}
-                                    </a>
-                                    {% if post.userName == user.userName %}
-                                        <a href="{{ url_for('views.edit_post', postId=post.id) }}" class="card-link">
-                                            <i class="fas fa-edit mr-2 mscol2" aria-hidden="true"></i>
-                                        </a>
-                                    {% endif %}
                                 </div>
                             </div>
                             <br>
@@ -202,40 +130,12 @@
     integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
     crossorigin="anonymous"></script>
     <script>
-        function preview(input) {
-    if (input.files && input.files[0]) {
-      var reader = new FileReader();
-      reader.onload = function (e) { 
-        console.log(reader.result)
-        var img = new Image;
-              img.onload = function() {				 $('#img').attr({'src':e.target.result,'width':img.width});
-              };
-     img.src = reader.result;
-                                 }
-      reader.readAsDataURL(input.files[0]);     }   }
-  
-  $("#upload").change(function(){
-    $("#img").css({top: 0, left: 0});
-      preview(this);
-      $("#img").draggable({ containment: 'parent',scroll: false});
-  });
-    </script>
-    <script>
-        function likePost(postId) {
-            fetch("/like-post", {
+        function unFollowUser(targetId) {
+            fetch("/unfollow-user", {
                 method: "POST",
-                body: JSON.stringify({ postId: postId }),
+                body: JSON.stringify({ targetId: targetId }),
             }).then((_res) => {
-                window.location.href = "{{ url_for('views.home') }}";
-            });
-        }
-
-        function disLikePost(postId) {
-            fetch("/dis-like-post", {
-                method: "POST",
-                body: JSON.stringify({ postId: postId }),
-            }).then((_res) => {
-                window.location.href = "{{ url_for('views.home') }}";
+                window.location.href = "{{ url_for('views.following') }}";
             });
         }
 
@@ -244,7 +144,7 @@
                 method: "POST",
                 body: JSON.stringify({ targetId: targetId }),
             }).then((_res) => {
-                window.location.href = "{{ url_for('views.home') }}";
+                window.location.href = "{{ url_for('views.following') }}";
             });
         }
     </script>

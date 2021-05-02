@@ -162,13 +162,6 @@ textarea.form-control {
     width: 20%;
 }
 
-
-.col-md-3#suggested {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
 /**Reset Bootstrap*/
 .dropdown-toggle::after {
     content: none;

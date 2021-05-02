@@ -1,164 +1,92 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MateSet - Post</title>
-    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-    rel="stylesheet"
-    integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
-    crossorigin="anonymous">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-    integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-    crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/home.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/upload.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/alerts.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/userLink.css') }}">
-</head>
-<body>
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert" role="alert">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
-    <div class="jumbotron">
-        <div class="container px-1 py-3">
-            <div class="row">
-                <div class="col-md-3" id="profile">
-                    <div class="card pl-3 mscol">
-                        <ul class="list-group list-group-flush">
-                            <li style="opacity: 0;"></li>
-                            <li class="list-group-item mscol">
-                                <div class="h6 text-muted mscol"><i class="fa fa-history mscol mr-4"></i><a href="/">Timeline</a></div>
-                            </li>
-                            <li class="list-group-item mscol">
-                                <div class="h6 text-muted mscol"><i class="fa fa-user mscol mr-4"></i><a href="{{ url_for('views.following') }}">Following</a></div>
-                            </li>
-                            <li class="list-group-item mscol">
-                                <div class="h6 text-muted mscol"><i class="fa fa-envelope mscol mr-4"></i><a href="{{ url_for('views.message') }}">Message</a></div>
-                            </li>
-                            <li class="list-group-item mscol">
-                                <div class="h6 text-muted mscol"><i class="fa fa-wrench mscol mr-4"></i><a href="{{ url_for('auth.settings') }}">Settings</a></div>
-                            </li>
-                            <li class="list-group-item mscol mb-5">
-                                <div class="h6 text-muted mscol"><i class="fa fa-power-off mscol mr-4"></i><a href="{{ url_for('auth.logout') }}">Logout</a></div>
-                            </li>
-                        </ul>
+{% extends 'base.html' %}
+{% block title %} Post Edit {% endblock %}
+{% block content %}
+    <div class="card gedf-card">
+        <div class="card-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex justify-content-between align-items-center pt-5">
+                    <div class="mr-2">
+                        <img class="rounded-circle" width="45" height="45" src="{{ url_for('views.get_image', file=user.profilePic) }}" alt="">
                     </div>
-                </div>
-                <div class="col-md-6 gedf-main">
-                    <div class="card gedf-card">
-                        <div class="card-header">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="d-flex justify-content-between align-items-center pt-5">
-                                    <div class="mr-2">
-                                        <img class="rounded-circle" width="45" height="45" src="{{ url_for('views.get_image', file=user.profilePic) }}" alt="">
-                                    </div>
-                                    <div class="ml-2">
-                                        <div class="h5 m-0">{{ post.userName }}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body" id="postcard">
-                            <form method="post" enctype="multipart/form-data">
-                                <div class="tab-content" id="myTabContent">
-                                    <div class="tab-pane fade show active" id="posts" role="tabpanel" aria-labelledby="posts-tab">
-                                        <div class="form-group">
-                                            <label class="sr-only" for="message">post</label>
-                                            <textarea class="form-control pt-4" name="desc" id="message" rows="5">{{ post.desc }}</textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="btn-group">
-                                    <input type="file" name="image" class="foo" accept="image/*">
-                                    <button type="submit" class="btn btn-primary mscol">Post</button>
-                                </div>
-                            </form>
-                        </div>
-                        {% if post.img %}
-                            <div class="card mr-3">
-                                <img src="{{ url_for('views.get_image', file=post.img) }}" class="card-img-top" alt="...">
-                            </div>
-                        {% endif %}
-                        <div class="card-footer">
-                            {% if post.id in likedPosts %}
-                                <a href="#" class="card-link" onclick="likePost({{ post.id }});">
-                                    <i class="fa fa-thumbs-up mr-2 mscol2" aria-hidden="true"></i>
-                                    {{ post.likes }}
-                                </a>
-                            {% else %}
-                                <a href="#" class="card-link" onclick="likePost({{ post.id }});">
-                                    <i class="fa fa-thumbs-up mr-2" aria-hidden="true"></i>
-                                    {{ post.likes }}
-                                </a>
-                            {% endif %}
-                            {% if post.id in disLikedPosts %}
-                                <a href="#" class="card-link" onclick="disLikePost({{ post.id }});">
-                                    <i class="fa fa-thumbs-down mr-2 mscol2" aria-hidden="true"></i>
-                                    {{ post.disLikes }}
-                                </a>
-                            {% else %}
-                                <a href="#" class="card-link" onclick="disLikePost({{ post.id }});">
-                                    <i class="fa fa-thumbs-down mr-2" aria-hidden="true"></i>
-                                    {{ post.disLikes }}
-                                </a>
-                            {% endif %}
-                            <a href="{{ url_for('views.post', postId=post.id) }}" class="card-link">
-                                <i class="fa fa-comment mr-2 mscol2" aria-hidden="true"></i>
-                                {{ post.comments }}
-                            </a>
-                        </div>
-                    </div>
-                    <br>
-                </div>
-                <div class="col-md-3" id="suggested">
-                        <div class="card-body">
-                            <h6 class="card-title mt-3 mb-5">Suggested people<span class="ml-5">:</span></h6>
-                            {% if sugs %}
-                                {% for usr in sugs %}
-                                    <div class="d-flex mb-4">
-                                        <div class="mr-1">
-                                            <img class="rounded-circle" width="45" height="45" src="{{ url_for('views.get_image', file=usr.profilePic) }}" alt="">
-                                        </div>
-                                        <div class="ml-1">
-                                            <div class="h6 m-0 mt-1" style="font-size: 14px;">
-                                                <a class="mscol" href="{{ url_for('views.profile', username=usr.userName) }}">{{ usr.userName }}</a>
-                                            </div>
-                                            <div class="h7 text-muted" style="font-size: 12px;">
-                                                <span>
-                                                    {{ usr.name }}
-                                                    <a href="#" class="card-link" onclick="followUser({{ usr.id }});">
-                                                        <i class="fa fa-plus-circle fa-2x mscol2" style="margin-left: 65px;"></i>
-                                                    </a>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                {% endfor %}
-                            {% endif %}
-                        </div>
+                    <div class="ml-2">
+                        <div class="h5 m-0">{{ post.userName }}</div>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="card-body" id="postcard">
+            <form method="post" enctype="multipart/form-data">
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="posts" role="tabpanel" aria-labelledby="posts-tab">
+                        <div class="form-group">
+                            <label class="sr-only" for="message">post</label>
+                            <textarea class="form-control pt-4" name="desc" id="message" rows="5">{{ post.desc }}</textarea>
+                            <div class="thumb"><img id="img" src=""/></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <input type="file" name="image" id="upload" class="foo" accept="image/*">
+                    <button type="submit" class="btn btn-primary mscol">Post</button>
+                </div>
+            </form>
+        </div>
+        {% if post.img %}
+            <div class="card mr-3">
+                <img src="{{ url_for('views.get_image', file=post.img) }}" class="card-img-top" alt="...">
+            </div>
+        {% endif %}
+        <div class="card-footer">
+            {% if post.id in likedPosts %}
+                <a href="#" class="card-link" onclick="likePost({{ post.id }});">
+                    <i class="fa fa-thumbs-up mr-2 mscol2" aria-hidden="true"></i>
+                    {{ post.likes }}
+                </a>
+            {% else %}
+                <a href="#" class="card-link" onclick="likePost({{ post.id }});">
+                    <i class="fa fa-thumbs-up mr-2" aria-hidden="true"></i>
+                    {{ post.likes }}
+                </a>
+            {% endif %}
+            {% if post.id in disLikedPosts %}
+                <a href="#" class="card-link" onclick="disLikePost({{ post.id }});">
+                    <i class="fa fa-thumbs-down mr-2 mscol2" aria-hidden="true"></i>
+                    {{ post.disLikes }}
+                </a>
+            {% else %}
+                <a href="#" class="card-link" onclick="disLikePost({{ post.id }});">
+                    <i class="fa fa-thumbs-down mr-2" aria-hidden="true"></i>
+                    {{ post.disLikes }}
+                </a>
+            {% endif %}
+            <a href="{{ url_for('views.post', postId=post.id) }}" class="card-link">
+                <i class="fa fa-comment mr-2 mscol2" aria-hidden="true"></i>
+                {{ post.comments }}
+            </a>
+        </div>
     </div>
-    <script src="https://kit.fontawesome.com/a166556e40.js"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-    crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-    crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
-    integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-    crossorigin="anonymous"></script>
+    <br>
+{% endblock %}
+{% block footer %}
+    <script>
+        function preview(input) {
+    if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    reader.onload = function (e) { 
+        console.log(reader.result)
+        var img = new Image;
+            img.onload = function() {				 $('#img').attr({'src':e.target.result,'width':img.width});
+            };
+    img.src = reader.result;
+                                }
+    reader.readAsDataURL(input.files[0]);     }   }
+
+    $("#upload").change(function(){
+    $("#img").css({top: 0, left: 0});
+    preview(this);
+    $("#img").draggable({ containment: 'parent',scroll: false});
+    });
+    </script>
     <script>
         function likePost(postId) {
             fetch("/like-post", {
@@ -187,5 +115,4 @@
             });
         }
     </script>
-</body>
-</html>
+{% endblock %}

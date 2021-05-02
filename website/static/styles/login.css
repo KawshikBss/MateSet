@@ -34,7 +34,6 @@ body {
     grid-gap: 7rem;
     padding: 0 2rem;
     display: flex;
-    flex-direction: column;
 }
 
 .img {
@@ -214,7 +213,9 @@ a:hover {
     }
 
     .img img {
-        width: 400px;
+        max-width: 100%;
+        background: white;
+        border-radius: 4%;
     }
 }
 
@@ -225,10 +226,7 @@ a:hover {
 
     .container {
         grid-template-columns: 1fr;
-    }
-
-    .img {
-        display: none;
+        flex-direction: column;
     }
 
     .wave {

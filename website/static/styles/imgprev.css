@@ -23,6 +23,7 @@
     opacity:0.6
   }
   .thumb img{
+    max-width: 100%;
     min-height:100%;
     max-height:51vh;
     width:auto !important;

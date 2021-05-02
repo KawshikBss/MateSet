@@ -29,6 +29,14 @@ def home():
     suggestions = get_users_suggestions(current_user)
     return render_template('home.html', user=current_user, posts=posts, likedPosts=likedPosts, disLikedPosts=disLikedPosts, sugs=suggestions)
 
+@views.route('/search/', methods=['GET', 'POST'])
+@login_required
+def search():
+    search = ''
+    if request.method == 'POST':
+        search = request.form['search']
+    return search
+
 @views.route('/<username>/')
 @login_required
 def profile(username):

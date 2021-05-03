@@ -47,7 +47,7 @@ def profile(username):
     user = User.query.filter_by(userName=username).first()
     likedPosts = get_posts_liked_by_users(current_user)
     disLikedPosts = get_posts_disliked_by_users(current_user)
-    return render_template('profile.html', current_user=current_user, user=user, sugs=suggestions, likedPosts=likedPosts, disLikedPosts=disLikedPosts)
+    return render_template('profile.html', user=current_user, profileUser=user, sugs=suggestions, likedPosts=likedPosts, disLikedPosts=disLikedPosts)
 
 @views.route('/post/<postId>/', methods=['POST', 'GET'])
 @login_required

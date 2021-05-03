@@ -62,7 +62,7 @@ def follow_user():
     targetId = json.loads(request.data)['targetId']
     followedUser = User.query.filter_by(id=targetId).first().userName
     db.session.add(Follow(user=current_user.userName, followedUser=followedUser))
-    db.session.add(Activity(fromUser=current_user.userName, toUser=followedUser, desc=f'{ current_user.userName } followed you', link=f'{ current_user.userName }/'))
+    db.session.add(Activity(fromUser=current_user.userName, toUser=followedUser, desc=f'{ current_user.userName } followed you', link=f'/{ current_user.userName }/'))
     db.session.commit()
 
     return jsonify({})

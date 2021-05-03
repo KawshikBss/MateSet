@@ -6,13 +6,13 @@
             <div class="mr-2">
                 <img class="rounded-circle" width="100" height="100" src="{{ url_for('views.get_image', file=user.profilePic) }}" alt="">
             </div>
-            <div class="h5 mt-4">{{ user.userName }}</div>
-            <div class="h6 text-muted mb-5">{{ user.name }}</div>
+            <div class="h5 mt-4">{{ profileUser.userName }}</div>
+            <div class="h6 text-muted mb-5">{{ profileUser.name }}</div>
         </div>
     </div>
     <br>
-    {% if user.posts %}
-        {% for post in user.posts[::-1] %}
+    {% if profileUser.posts %}
+        {% for post in profileUser.posts[::-1] %}
             <div class="card gedf-card">
                 <div class="card-header">
                     <div class="d-flex justify-content-between align-items-center">
@@ -69,7 +69,7 @@
                         <i class="fa fa-comment mr-2 mscol2" aria-hidden="true"></i>
                         {{ post.comments }}
                     </a>
-                    {% if user == current_user %}
+                    {% if profileUser == user %}
                         <a href="{{ url_for('views.edit_post', postId=post.id) }}" class="card-link">
                             <i class="fas fa-edit mr-2 mscol2" aria-hidden="true"></i>
                         </a>

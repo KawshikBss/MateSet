@@ -28,11 +28,7 @@ def get_users_suggestions(user):
 def get_posts_for_user(user):
     usersFollowing = get_users_following_name(user)
     posts = Post.query.all()
-    if posts:
-        posts = [post for post in posts if (post.userName in usersFollowing or post.userName == user.userName) and is_recent(post.postDate)]
-        return posts[::-1]
-    else:
-        return []
+    return [post for post in posts if (post.userName in usersFollowing or post.userName == user.userName) and is_recent(post.postDate)][::-1]
 
 def get_post_reacts(post, user):
     reacts = [False, False]

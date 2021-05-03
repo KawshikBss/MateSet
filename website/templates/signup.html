@@ -5,8 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://kit.fontawesome.com/c0078485ae.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/upload.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/login.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/alerts.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/imgprev.css') }}">
     <title>MateSet - Sign up</title>
 </head>
 <body>
@@ -25,8 +27,22 @@
             <img src="{{ url_for('static', filename='images/mateSetLogo.png') }}" alt="">
         </div>
         <div class="login-container">
-            <form method="POST" class="form-login">
+            <form method="POST" class="form-login" enctype="multipart/form-data">
                 <h2>Sign Up</h2>
+                <div class="input-div one">
+                    <div class="i">
+                        <i class="fas fa-user"> </i>
+                    </div>
+                    <div>
+                        <h5>Profile Picture</h5>
+                    </div>
+                </div>
+                <div class="thumb"><img id="img" src=""/></div>
+                <div class="input-div one">
+                    <div>
+                        <input type="file" name="image" id="upload" class="foo" accept="image/*">
+                    </div>
+                </div>
                 <div class="input-div one">
                     <div class="i">
                         <i class="fas fa-user"> </i>
@@ -86,6 +102,24 @@
             </form>
         </div>
     </div>
-    <script type="text/javascript" src="{{ url_for('static', filename='scripts/login.js') }}"></script>
+    <script>
+        function preview(input) {
+    if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    reader.onload = function (e) { 
+        console.log(reader.result)
+        var img = new Image;
+            img.onload = function() {				 $('#img').attr({'src':e.target.result,'width':img.width});
+            };
+    img.src = reader.result;
+                                }
+    reader.readAsDataURL(input.files[0]);     }   }
+
+    $("#upload").change(function(){
+    $("#img").css({top: 0, left: 0});
+    preview(this);
+    $("#img").draggable({ containment: 'parent',scroll: false});
+    });
+    </script>
 </body>
 </html>

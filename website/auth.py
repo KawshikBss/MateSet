@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash
-from . import db
+from . import db, UPLOADE_FOLDER
 from .models import User, Post
+from .helper_functions import get_image_path
 from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
@@ -36,6 +37,7 @@ def logout():
 @auth.route('/signup/', methods=['POST', 'GET'])
 def signup():
     if request.method == 'POST':
+        profilePic = request.files['image']
         fname = request.form['fname']
         lname = request.form['lname']
         username = request.form['username']
@@ -61,10 +63,18 @@ def signup():
             if not userNameCheck:
                 emailCheck = User.query.filter_by(email=email).first()
                 if not emailCheck:
-                    newUser = User(name=name, userName=username, email=email, password=generate_password_hash(password, method='sha256'))
-                    db.session.add(newUser)
-                    db.session.commit()
-                    flash("Sign Up successfull")
+                    if profilePic.filename:
+                        fileName = get_image_path(profilePic.filename)
+                        profilePic.save(path.join(UPLOADE_FOLDER, secure_filename(fileName)))
+                        newUser = User(profilePic=fileName ,name=name, userName=username, email=email, password=generate_password_hash(password, method='sha256'))
+                        db.session.add(newUser)
+                        db.session.commit()
+                        flash("Sign Up successfull")
+                    else:
+                        newUser = User(name=name, userName=username, email=email, password=generate_password_hash(password, method='sha256'))
+                        db.session.add(newUser)
+                        db.session.commit()
+                        flash("Sign Up successfull")
                 else:
                     flash("Email already exists")
             else:
@@ -83,11 +93,12 @@ def settings():
             if check_password_hash(current_user.password, currPassword):
                 profilePic = request.files['profilePic']
                 if profilePic.filename:
-                    current_user.profilePic = profilePic.filename.replace(' ', '_')
+                    fileName = get_image_path(profilePic.filename)
+                    current_user.profilePic = fileName
                     for post in current_user.posts:
-                        post.userpic = profilePic.filename
-                    profilePic.save(path.join("F:\\PyFlaskProjects\\MateSet\\website\\static\\images", secure_filename(profilePic.filename.replace(' ', '_'))))
-                    db.session.add(Post(desc=f'{ current_user.userName } changed his profile picture', userName=current_user.userName, userpic=profilePic.filename.replace(' ', '_'), img=profilePic.filename.replace(' ', '_')))
+                        post.userpic = fileName
+                    profilePic.save(path.join(UPLOADE_FOLDER, secure_filename(fileName)))
+                    db.session.add(Post(desc=f'{ current_user.userName } changed his profile picture', userName=current_user.userName, userpic=fileName, img=fileName))
                     flash("Profile picture changed")
                 newUserName = request.form['username']
                 if newUserName:

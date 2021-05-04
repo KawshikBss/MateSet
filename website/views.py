@@ -1,8 +1,9 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash, send_from_directory
 from flask_login import login_required, current_user
 from .models import User, Post, Message, Comment, Activity
-from . import db
+from . import db, UPLOADE_FOLDER
 from .getFromModels import *
+from .helper_functions import get_image_path
 from werkzeug.utils import secure_filename
 from os import path
 
@@ -18,8 +19,9 @@ def home():
         desc = request.form['post']
         postImg = request.files['image']
         if postImg.filename:
-            db.session.add(Post(desc=desc, userName=current_user.userName, userpic=current_user.profilePic, img=postImg.filename.replace(' ', '_')))
-            postImg.save(path.join("F:\\PyFlaskProjects\\MateSet\\website\\static\\images", secure_filename(postImg.filename.replace(' ', '_'))))
+            fileName = get_image_path(postImg.filename)
+            db.session.add(Post(desc=desc, userName=current_user.userName, userpic=current_user.profilePic, img=fileName))
+            postImg.save(path.join(UPLOADE_FOLDER, secure_filename(fileName)))
         else:
             db.session.add(Post(desc=desc, userName=current_user.userName, userpic=current_user.profilePic))
         db.session.commit()
@@ -78,8 +80,9 @@ def edit_post(postId):
             if len(desc) > 0 and desc:
                 post.desc = desc
             if img.filename:
-                post.img = img.filename.replace(' ', '_')
-                img.save(path.join("F:\\PyFlaskProjects\\MateSet\\website\\static\\images", secure_filename(img.filename.replace(' ', '_'))))
+                fileName = get_image_path(img.filename)
+                post.img = fileName
+                img.save(path.join(UPLOADE_FOLDER, secure_filename(fileName)))
             db.session.commit()
         else:
             flash("No changes were made")
@@ -115,8 +118,9 @@ def messages(toUserName):
         msg = request.form['msg']
         img = request.files['image']
         if img.filename:
-            db.session.add(Message(fromUserId=current_user.id, toUserId=toUser.id, msg=msg, img=img.filename.replace(' ', '_')))
-            img.save(path.join("F:\\PyFlaskProjects\\MateSet\\website\\static\\images", secure_filename(img.filename.replace(' ', '_'))))
+            fileName = get_image_path(img.filename)
+            db.session.add(Message(fromUserId=current_user.id, toUserId=toUser.id, msg=msg, img=fileName))
+            img.save(path.join(UPLOADE_FOLDER, secure_filename(fileName)))
         else:
             db.session.add(Message(fromUserId=current_user.id, toUserId=toUser.id, msg=msg))
         db.session.commit()
@@ -126,4 +130,4 @@ def messages(toUserName):
 @views.route('/image/<file>/')
 @login_required
 def get_image(file):
-    return send_from_directory("F:\\PyFlaskProjects\\MateSet\\website\\static\\images", file)
+    return send_from_directory(UPLOADE_FOLDER, file)

@@ -37,7 +37,7 @@
                         <h5>Profile Picture</h5>
                     </div>
                 </div>
-                <div class="thumb"><img id="img" src=""/></div>
+                <div class="thumb"><img id="img" name="image" src=""/></div>
                 <div class="input-div one">
                     <div>
                         <input type="file" name="image" id="upload" class="foo" accept="image/*">
@@ -102,24 +102,6 @@
             </form>
         </div>
     </div>
-    <script>
-        function preview(input) {
-    if (input.files && input.files[0]) {
-    var reader = new FileReader();
-    reader.onload = function (e) { 
-        console.log(reader.result)
-        var img = new Image;
-            img.onload = function() {				 $('#img').attr({'src':e.target.result,'width':img.width});
-            };
-    img.src = reader.result;
-                                }
-    reader.readAsDataURL(input.files[0]);     }   }
-
-    $("#upload").change(function(){
-    $("#img").css({top: 0, left: 0});
-    preview(this);
-    $("#img").draggable({ containment: 'parent',scroll: false});
-    });
-    </script>
+    <script src="{{ url_for('static', filename='scripts/imgprev.js') }}"></script>
 </body>
 </html>

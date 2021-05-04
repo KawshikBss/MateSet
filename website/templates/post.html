@@ -77,6 +77,11 @@
                     <p class="card-text text-muted">
                         {{ comment.desc }}
                     </p>
+                    {% if comment.userName != user.userName %}
+                        <a href="{{ url_for('admin.report_comment', commentId=comment.id) }}" class="card-link">
+                            <i class="fas fa-exclamation-triangle mr-2 mscol2" aria-hidden="true"></i>
+                        </a>
+                    {% endif %}
                 </div>
             </div>
             <br>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+    integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+    crossorigin="anonymous">
+    <title>Admins</title>
+</head>
+<body>
+    <div style="width: 40%; align-items: center;" class="reports">
+        <h1>Reports:</h1>
+        {% if reports %}
+            {% for report in reports %}
+                <div style="padding: 10px; border-radius: 20px; border: 5px solid lightgreen; display: flex; justify-content: space-between;">
+                    <a style="text-decoration: none;" href="{{ report.link }}">{{ report.desc }}</a><a href="{{ url_for('admin.take_action', reportId=report.id) }}" class="btn btn-outline-primary">Take Action</a>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <div style="width: 40%; align-items: center;" class="users">
+        <h1>Users:</h1>
+        {% if users %}
+            {% for user in users %}
+                {% if user.userName in admins %}
+                    <div style="padding: 10px; border-radius: 20px; border: 5px solid cornflowerblue; display: flex; justify-content: space-between;">
+                        <h3>{{ user.userName }}</h3>
+                        <a href="{{ url_for('admin.remove_admin', userName=user.userName) }}" class="btn btn-outline-primary">Remove Admin</a>
+                    </div>
+                {% else %}
+                    <div style="padding: 10px; border-radius: 20px; border: 5px solid red; display: flex; justify-content: space-between;">
+                        <h3>{{ user.userName }}</h3>
+                        <a href="{{ url_for('admin.add_admin', userName=user.userName) }}" class="btn btn-outline-success">Add Admin</a>
+                        <a href="{{ url_for('admin.remove_user', userName=user.userName) }}" class="btn btn-outline-danger">Remove User</a>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -69,3 +69,10 @@ class Activity(db.Model):
     desc = db.Column(db.String(100))
     link = db.Column(db.String(100))
     activityDate = db.Column(db.String(20), default=datetime.today().strftime("%d/%m/%Y-%I:%M%p"))
+
+class Report(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user = db.Column(db.String(100), ForeignKey('user.userName'))
+    ref = db.Column(db.Integer)
+    desc = db.Column(db.String(100))
+    link = db.Column(db.String(100))

@@ -85,6 +85,10 @@
                         <a href="{{ url_for('views.edit_post', postId=post.id) }}" class="card-link">
                             <i class="fas fa-edit mr-2 mscol2" aria-hidden="true"></i>
                         </a>
+                    {% else %}
+                        <a href="{{ url_for('admin.report_post', postId=post.id, url_red='views.home') }}" class="card-link">
+                            <i class="fas fa-exclamation-triangle mr-2 mscol2" aria-hidden="true"></i>
+                        </a>
                     {% endif %}
                 </div>
             </div>

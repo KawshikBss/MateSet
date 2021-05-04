@@ -25,10 +25,12 @@ def create_app():
 
     from .views import views
     from .auth import auth
+    from .admin import admin
     from .customReqs import customReqs
 
     app.register_blueprint(views, url_prefix="/")
     app.register_blueprint(auth, url_prefix="/")
+    app.register_blueprint(admin, url_prefix="/")
     app.register_blueprint(customReqs, url_prefix='/')
 
     from .models import User, Post

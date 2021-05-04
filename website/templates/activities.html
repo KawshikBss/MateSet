@@ -1,58 +1,40 @@
 {% extends 'base.html' %}
 {% block title %} Activities {% endblock %}
 {% block content %}
-                    <div class="card gedf-card">
-                        <div class="card-body">
-                            <div class="mr-2">
-                                <img class="rounded-circle" width="100" height="100" src="{{ url_for('views.get_image', file=user.profilePic) }}" alt="">
-                            </div>
-                            <div class="h5 mt-4">{{ user.userName }}</div>
-                            <div class="h6 text-muted mb-5">{{ user.name }}</div>
-                        </div>
+    <div class="card gedf-card">
+        <div class="card-body">
+            <div class="mr-2">
+                <img class="rounded-circle" width="100" height="100" src="{{ url_for('views.get_image', file=user.profilePic) }}" alt="">
+            </div>
+            <div class="h5 mt-4">{{ user.userName }}</div>
+            <div class="h6 text-muted mb-5">{{ user.name }}</div>
+        </div>
+    </div>
+    <br>
+    <h6 class="card-title mt-3 mb-5">Recent Activities<span class="ml-5">:</span></h6>
+    {% if acts %}
+        {% for act in acts %}
+            <div class="card gedf-card">
+                <a href="{{ act.link }}">
+                    <div class="card-body">
+                        <p class="card-text text-muted">
+                            {{ act.desc }}
+                        </p>
                     </div>
-                    <br>
-                    <h6 class="card-title mt-3 mb-5">Recent Activities<span class="ml-5">:</span></h6>
-                    {% if acts %}
-                        {% for act in acts %}
-                            <div class="card gedf-card">
-                                <a href="{{ act.link }}">
-                                    <div class="card-body">
-                                        <p class="card-text text-muted">
-                                            {{ act.desc }}
-                                        </p>
-                                    </div>
-                                </a>
-                            </div>
-                            <br>
-                        {% endfor %}
-                    {% endif %}
+                </a>
+            </div>
+            <br>
+        {% endfor %}
+    {% endif %}
 {% endblock %}
 {% block footer %}
     <script>
-        function likePost(postId) {
-            fetch("/like-post", {
-                method: "POST",
-                body: JSON.stringify({ postId: postId }),
-            }).then((_res) => {
-                window.location.href = "{{ url_for('views.profile', username=user.userName) }}";
-            });
-        }
-
-        function disLikePost(postId) {
-            fetch("/dis-like-post", {
-                method: "POST",
-                body: JSON.stringify({ postId: postId }),
-            }).then((_res) => {
-                window.location.href = "{{ url_for('views.profile', username=user.userName) }}";
-            });
-        }
-
         function followUser(targetId) {
             fetch("/follow-user", {
                 method: "POST",
                 body: JSON.stringify({ targetId: targetId }),
             }).then((_res) => {
-                window.location.href = "{{ url_for('views.profile', username=user.userName) }}";
+                window.location.href = "{{ url_for('views.activities') }}";
             });
         }
     </script>

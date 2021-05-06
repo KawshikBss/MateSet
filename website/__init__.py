@@ -6,7 +6,7 @@ from os import path
 # creating database object
 db = SQLAlchemy()
 DB_NAME = 'database.db'
-UPLOADE_FOLDER = 'F:\\\\PyFlaskProjects\\\\MateSet\\\\website\\\\static\\\\images'
+UPLOADE_FOLDER = 'F:\\\\PyFlaskProjects\\\\MateSet\\\\website\\\\static\\\\images\\\\uploads'
 
 def create_app():
     """To crate a Flask app

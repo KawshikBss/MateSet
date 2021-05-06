@@ -1,5 +1,6 @@
 from .models import User, Post, Message, Activity
 from .dateFunction import is_recent
+from .helper_functions import set_messages_seen, set_activities_seen
 from . import db
 import random
 
@@ -11,6 +12,11 @@ def get_users_following(user):
 def get_users_following_name(user):
     following = user.following
     return [usr.followedUser for usr in following][::-1]
+
+def get_users_following_id(user):
+    nameUsersFollowing = get_users_following_name(user)
+    users = User.query.all()
+    return [usr.id for usr in users if usr.userName in nameUsersFollowing][::-1]
 
 def get_searched_users(name):
     name = name.capitalize()
@@ -52,7 +58,14 @@ def get_posts_disliked_by_users(user):
 def get_messages_for_user(user, otherUser):
     allMsgs = Message.query.all()
     msgs = [msg for msg in allMsgs if (msg.fromUserId == user.id and msg.toUserId == otherUser.id) or (msg.fromUserId == otherUser.id and msg.toUserId == user.id)]
-    return msgs
+    for msg in msgs:
+        if msg.fromUserId == otherUser.id and msg.fromUserId in get_users_following_id(user):
+            set_messages_seen(msg.id)
+    return msgs[::-1]
+
+def get_users_messaged_by(user):
+    allMessages = Message.query.filter_by(toUserId=user.id).all()
+    return [msg.fromUserId for msg in allMessages if (not msg.seen)]
 
 def get_message_requests(user):
     allMsgs = Message.query.filter_by(toUserId=user.id).all()
@@ -65,5 +78,17 @@ def get_message_requests(user):
     return users[::-1]
 
 def get_activities(user):
-    activitis = user.activities
-    return [act for act in activitis if is_recent(act.activityDate)][::-1]
+    activities = user.activities
+    for act in activities:
+        set_activities_seen(act.id)
+    return [act for act in activities if is_recent(act.activityDate)][::-1]
+
+def get_alerts(user):
+    alerts = {'activities' : 0, 'messages' : 0}
+    activities = [act for act in user.activities if is_recent(act.activityDate) and (not act.seen)]
+    alerts['activities'] = len(activities)
+    allMessages = Message.query.filter_by(toUserId=user.id).all()
+    for msg in allMessages:
+        if not msg.seen:
+            alerts['messages'] += 1
+    return alerts

@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from . import db, UPLOADE_FOLDER
 from .models import User, Post
+from .getFromModels import get_alerts
 from .helper_functions import get_image_path
 from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -146,4 +147,4 @@ def settings():
 
     userPosts = current_user.posts
         
-    return render_template('settings.html', user=current_user)
+    return render_template('settings.html', user=current_user, alerts=get_alerts(current_user))

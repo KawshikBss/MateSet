@@ -50,22 +50,54 @@
                         </div>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item mscol">
-                                <div class="h6 text-muted mscol"><i class="fa fa-history mscol mr-4"></i><a href="/">Timeline</a></div>
+                                <div class="h6 text-muted mscol">
+                                    <i class="fa fa-history mscol mr-4"></i>
+                                    <a href="/">Timeline</a>
+                                </div>
                             </li>
                             <li class="list-group-item mscol">
-                                <div class="h6 text-muted mscol"><i class="fa fa-bell mscol mr-4"></i><a href="{{ url_for('views.activities') }}">Activities</a></div>
+                                <div class="h6 text-muted mscol">
+                                    <i class="fa fa-bell mscol mr-4"></i>
+                                    <a href="{{ url_for('views.activities') }}">Activities</a>
+                                    {% if alerts['activities'] > 0 %}
+                                        {% if alerts['activities'] > 9 %}
+                                            <span class="notification">9+</span>
+                                        {% else %}
+                                            <span class="notification">{{ alerts['activities'] }}</span>
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
                             </li>
                             <li class="list-group-item mscol">
-                                <div class="h6 text-muted mscol"><i class="fa fa-user mscol mr-4"></i><a href="{{ url_for('views.following') }}">Following</a></div>
+                                <div class="h6 text-muted mscol">
+                                    <i class="fa fa-user mscol mr-4"></i>
+                                    <a href="{{ url_for('views.following') }}">Following</a>
+                                </div>
                             </li>
                             <li class="list-group-item mscol">
-                                <div class="h6 text-muted mscol"><i class="fa fa-envelope mscol mr-4"></i><a href="{{ url_for('views.message') }}">Message</a></div>
+                                <div class="h6 text-muted mscol">
+                                    <i class="fa fa-envelope mscol mr-4"></i>
+                                    <a href="{{ url_for('views.message') }}">Message</a>
+                                    {% if alerts['messages'] > 0 %}
+                                        {% if alerts['messages'] > 9 %}
+                                            <span class="notification">9+</span>
+                                        {% else %}
+                                            <span class="notification">{{ alerts['messages'] }}</span>
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
                             </li>
                             <li class="list-group-item mscol">
-                                <div class="h6 text-muted mscol"><i class="fa fa-wrench mscol mr-4"></i><a href="{{ url_for('auth.settings') }}">Settings</a></div>
+                                <div class="h6 text-muted mscol">
+                                    <i class="fa fa-wrench mscol mr-4"></i>
+                                    <a href="{{ url_for('auth.settings') }}">Settings</a>
+                                </div>
                             </li>
                             <li class="list-group-item mscol mb-5">
-                                <div class="h6 text-muted mscol"><i class="fa fa-power-off mscol mr-4"></i><a href="{{ url_for('auth.logout') }}">Logout</a></div>
+                                <div class="h6 text-muted mscol">
+                                    <i class="fa fa-power-off mscol mr-4"></i>
+                                    <a href="{{ url_for('auth.logout') }}">Logout</a>
+                                </div>
                             </li>
                         </ul>
                     </div>

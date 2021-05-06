@@ -2,15 +2,26 @@
 {% block title %} Message {% endblock %}
 {% block content %}
     <div class="card-body">
-        <h6 class="card-title mt-3 mb-5">Messages<span class="ml-5">:</span></h6>
-        {% if usersFollowing %}
-            {% for usr in usersFollowing %}
+        <h6 class="card-title mt-3 mb-5">Search for users to message<span class="ml-5">:</span></h6>
+        <form class="input-group mb-5" action="{{ url_for('views.message') }}" method="post">
+            <input type="text" placeholder="Search for users" id="searchedUsers" name="searchedUsers" class="form-control" aria-label="Recipient's username" aria-describedby="button-addon2">
+            <div class="input-group-append">
+                <button class="btn btn-outline-primary" type="submit" id="button-addon2">
+                    <i class="fa fa-search mscol"></i>
+                </button>
+            </div>
+        </form>
+        {% if searchedUsers %}
+            <h6 class="card-title mt-3 mb-5">Messages<span class="ml-5">:</span></h6>
+            {% for usr in searchedUsers %}
                 <div class="d-flex mb-4">
                     <div class="mr-1">
                         <img class="rounded-circle" width="45" height="45" src="{{ url_for('views.get_image', file=usr.profilePic) }}" alt="">
                     </div>
                     <div class="ml-1">
-                        <div class="h6 m-0 mt-1" style="font-size: 14px;"><a class="mscol" href="{{ url_for('views.profile', username=usr.userName) }}">{{ usr.userName }}</a></div>
+                        <div class="h6 m-0 mt-1" style="font-size: 14px;">
+                            <a class="mscol" href="{{ url_for('views.profile', username=usr.userName) }}">{{ usr.userName }}</a>
+                        </div>
                         <div class="h7 text-muted" style="font-size: 12px;">
                             <span>
                                 {{ usr.name }}
@@ -24,15 +35,71 @@
                 <br>
             {% endfor %}
         {% endif %}
-        <h6 class="card-title mt-3 mb-5">Message requests<span class="ml-5">:</span></h6>
+        {% if alerts['messages'] > 0 %}
+            <h6 class="card-title mt-3 mb-5">New Messages<span class="ml-5">:</span></h6>
+            {% for usr in usersFollowing %}
+                {% if usr.id in usersMessagedBy %}
+                    <div class="d-flex mb-4">
+                        <div class="mr-1">
+                            <img class="rounded-circle" width="45" height="45" src="{{ url_for('views.get_image', file=usr.profilePic) }}" alt="">
+                        </div>
+                        <div class="ml-1">
+                            <div class="h6 m-0 mt-1" style="font-size: 14px;">
+                                <a class="mscol" href="{{ url_for('views.profile', username=usr.userName) }}">{{ usr.userName }}</a>
+                                <span class="notification">{{ usersMessagedBy.count(usr.id) }}</span>
+                            </div>
+                            <div class="h7 text-muted" style="font-size: 12px;">
+                                <span>
+                                    {{ usr.name }}
+                                    <a href="/messages/{{ usr.userName }}" class="card-link">
+                                        <i class="fa fa-envelope fa-2x mscol2" style="margin-left: 65px;"></i>
+                                    </a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
         {% if msgReqs %}
+            <h6 class="card-title mt-3 mb-5">Message requests<span class="ml-5">:</span></h6>
             {% for usr in msgReqs %}
+                    <div class="d-flex mb-4">
+                        <div class="mr-1">
+                            <img class="rounded-circle" width="45" height="45" src="{{ url_for('views.get_image', file=usr.profilePic) }}" alt="">
+                        </div>
+                        <div class="ml-1">
+                            <div class="h6 m-0 mt-1" style="font-size: 14px;">
+                                <a class="mscol" href="{{ url_for('views.profile', username=usr.userName) }}">{{ usr.userName }}</a>
+                                {% if usr.id in usersMessagedBy %}
+                                    <span class="notification">{{ usersMessagedBy.count(usr.id) }}</span>
+                                {% endif %}
+                            </div>
+                            <div class="h7 text-muted" style="font-size: 12px;">
+                                <span>
+                                    {{ usr.name }}
+                                    <a href="/messages/{{ usr.userName }}" class="card-link">
+                                        <i class="fa fa-envelope fa-2x mscol2" style="margin-left: 65px;"></i>
+                                    </a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+            {% endfor %}
+        {% endif %}
+        {% if usersFollowing %}
+            <h6 class="card-title mt-3 mb-5">Users Following<span class="ml-5">:</span></h6>
+            {% for usr in usersFollowing %}
                 <div class="d-flex mb-4">
                     <div class="mr-1">
                         <img class="rounded-circle" width="45" height="45" src="{{ url_for('views.get_image', file=usr.profilePic) }}" alt="">
                     </div>
                     <div class="ml-1">
-                        <div class="h6 m-0 mt-1" style="font-size: 14px;"><a class="mscol" href="{{ url_for('views.profile', username=usr.userName) }}">{{ usr.userName }}</a></div>
+                        <div class="h6 m-0 mt-1" style="font-size: 14px;">
+                            <a class="mscol" href="{{ url_for('views.profile', username=usr.userName) }}">{{ usr.userName }}</a>
+                        </div>
                         <div class="h7 text-muted" style="font-size: 12px;">
                             <span>
                                 {{ usr.name }}

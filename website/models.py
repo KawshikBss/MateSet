@@ -60,6 +60,7 @@ class Message(db.Model):
     toUserId = db.Column(db.Integer, ForeignKey('user.id'))
     msg = db.Column(db.String(100))
     img = db.Column(db.String(100), default=None)
+    seen = db.Column(db.Boolean, default=False)
     date = db.Column(db.String(7), default=datetime.today().strftime("%d/%m/%Y-%I:%M%p"))
 
 class Activity(db.Model):
@@ -68,6 +69,7 @@ class Activity(db.Model):
     toUser = db.Column(db.String(100), ForeignKey('user.userName'))
     desc = db.Column(db.String(100))
     link = db.Column(db.String(100))
+    seen = db.Column(db.Boolean, default=False)
     activityDate = db.Column(db.String(20), default=datetime.today().strftime("%d/%m/%Y-%I:%M%p"))
 
 class Report(db.Model):

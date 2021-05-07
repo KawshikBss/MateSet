@@ -26,4 +26,4 @@ $ pip install SQLALchemy
 '''
 
 ## Status
-* Create Flask App
+* Completed and working on updates

@@ -145,6 +145,4 @@ def settings():
             else:
                 flash("Current password doesn't match")
 
-    userPosts = current_user.posts
-        
     return render_template('settings.html', user=current_user, alerts=get_alerts(current_user))

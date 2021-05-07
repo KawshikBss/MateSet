@@ -33,7 +33,7 @@
                 method: "POST",
                 body: JSON.stringify({ targetId: targetId }),
             }).then((_res) => {
-                window.location.href = "{{ url_for('views.following') }}";
+                window.location.href = "{{ url_for('views.search') }}";
             });
         }
 
@@ -42,7 +42,7 @@
                 method: "POST",
                 body: JSON.stringify({ targetId: targetId }),
             }).then((_res) => {
-                window.location.href = "{{ url_for('views.following') }}";
+                window.location.href = "{{ url_for('views.search') }}";
             });
         }
     </script>

@@ -27,3 +27,6 @@ $ pip install SQLALchemy
 
 ## Status
 * Completed and working on updates
+
+## To do
+* number of followers
